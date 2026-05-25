@@ -204,7 +204,7 @@ body {
 .section-num {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 4rem;
-  color: rgba(0, 180, 80, 0.35);
+  color: rgba(0, 165, 80, 0.35);
   line-height: 1;
   flex-shrink: 0;
 }
@@ -243,7 +243,7 @@ body {
   transition: border-color 0.3s;
 }
 
-.chart-card:hover { border-color: rgba(0, 210, 80, 0.85); }
+.chart-card:hover { border-color: rgba(0, 165, 80, 0.85); }
 
 .chart-title {
   font-family: 'Bebas Neue', sans-serif;
@@ -346,6 +346,70 @@ body {
 .line-pak   { stroke: var(--green-light); stroke-width: 2.5px; fill: none; }
 .line-opp   { stroke: var(--red);         stroke-width: 2.5px; fill: none; }
 
+/* ── TEAM TABS ──────────────────────────────────────────── */
+.team-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.team-tab {
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+
+.team-tab:hover {
+  border-color: var(--green);
+  color: var(--green-light);
+}
+
+.team-tab.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── H2H STATS STRIP ────────────────────────────────────── */
+.h2h-stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+
+.h2h-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.h2h-stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.h2h-stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
 /* ── FOOTER ─────────────────────────────────────────────── */
 .footer {
   background: var(--bg-card);
@@ -369,13 +433,3 @@ body {
   .alt-bg { padding-left: 2.5rem; padding-right: 2.5rem; }
   .hero-stats { gap: 1.5rem; }
 }
-
-/* ── TEAM TABS ──────────────────────────────────────────── */
-.team-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-.team-tab { padding: 0.35rem 0.9rem; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-family: 'Outfit', sans-serif; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; }
-.team-tab:hover { border-color: var(--green); color: var(--green-light); }
-.team-tab.active { background: var(--green); border-color: var(--green); color: #fff; font-weight: 600; }
-.h2h-stats { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid var(--border); }
-.h2h-stat { display: flex; flex-direction: column; gap: 0.2rem; }
-.h2h-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--accent); line-height: 1; }
-.h2h-stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
