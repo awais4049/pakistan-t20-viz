@@ -97,6 +97,8 @@ Promise.all([
   // ── CHART 12: Over Progression ────────────────────────────
   drawOverProgression(overData, matches);
 
+  drawH2HDetail(matches, batting, bowling);
+
 }).catch(err => console.error("Data load error:", err));
 
 
@@ -929,4 +931,155 @@ function drawOverProgression(overData, matches) {
   if (matches.length) draw(matches[0]["Match Number"]);
 
   select.addEventListener("change", e => draw(e.target.value));
+}
+
+// ── 13. HEAD TO HEAD DETAIL ──────────────────────────────────
+function drawH2HDetail(matches, batting, bowling) {
+  const opponents = [...new Set(matches.map(d => d.Opponent))].sort();
+  const tabsDiv   = document.querySelector("#team-tabs");
+
+  // Build tabs
+  opponents.forEach((opp, i) => {
+    const btn = document.createElement("button");
+    btn.className = "team-tab" + (i === 0 ? " active" : "");
+    btn.textContent = opp;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".team-tab").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderH2H(opp);
+    });
+    tabsDiv.appendChild(btn);
+  });
+
+  function renderH2H(opponent) {
+    d3.select("#chart-h2h-detail").selectAll("*").remove();
+    document.querySelector("#h2h-stats").innerHTML = "";
+
+    const filtered = matches.filter(d => d.Opponent === opponent);
+    const wins     = filtered.filter(d => d.Pakistan_Result === "Win").length;
+    const losses   = filtered.filter(d => d.Pakistan_Result === "Loss").length;
+    const ties     = filtered.filter(d => d.Pakistan_Result === "Tie").length;
+    const total    = filtered.length;
+    const winRate  = ((wins / total) * 100).toFixed(1);
+    const avgPak   = d3.mean(filtered, d => d.Pakistan_Runs).toFixed(1);
+    const avgOpp   = d3.mean(filtered, d => d.Opponent_Runs).toFixed(1);
+    const highPak  = d3.max(filtered, d => d.Pakistan_Runs);
+    const highOpp  = d3.max(filtered, d => d.Opponent_Runs);
+
+    // ── Bar chart: one bar group per match ────────────────
+    const container = "#chart-h2h-detail";
+    const W  = getWidth(container);
+    const H  = Math.max(260, total * 52 + 60);
+    const margin = { top: 20, right: 30, bottom: 40, left: 130 };
+    const w  = W - margin.left - margin.right;
+    const h  = H - margin.top - margin.bottom;
+
+    const labels = filtered.map(d => `${d.Year} · ${d["Match Number"]}`);
+    const allRuns = filtered.flatMap(d => [d.Pakistan_Runs, d.Opponent_Runs]);
+
+    const svg = d3.select(container).append("svg")
+      .attr("width", W).attr("height", H)
+      .append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const x  = d3.scaleLinear().domain([0, d3.max(allRuns) + 20]).range([0, w]);
+    const y0 = d3.scaleBand().domain(labels).range([0, h]).padding(0.3);
+    const y1 = d3.scaleBand().domain(["Pakistan", opponent]).range([0, y0.bandwidth()]).padding(0.1);
+
+    // Grid
+    svg.append("g").attr("class", "grid")
+      .call(d3.axisBottom(x).tickSize(h).tickFormat(""))
+      .attr("transform", "translate(0,0)");
+
+    const groups = svg.selectAll(".match-group")
+      .data(filtered)
+      .enter().append("g")
+        .attr("class", "match-group")
+        .attr("transform", (d, i) => `translate(0, ${y0(labels[i])})`);
+
+    // Pakistan bar
+    groups.append("rect")
+      .attr("y",      y1("Pakistan"))
+      .attr("height", y1.bandwidth())
+      .attr("x",      0)
+      .attr("width",  d => x(d.Pakistan_Runs))
+      .attr("rx",     3)
+      .attr("fill",   d => d.Pakistan_Result === "Win" ? "#00A550" : "#FF4444")
+      .on("mouseover", (event, d) => {
+        showTooltip(`<strong>PAK vs ${opponent}</strong><br/>
+          ${d["Match Number"]} · ${d.Year}<br/>
+          PAK: ${d.Pakistan_Runs}/${d.Pakistan_Wickets}<br/>
+          ${opponent}: ${d.Opponent_Runs}/${d.Opponent_Wickets}<br/>
+          Result: <strong>${d.Pakistan_Result}</strong>`, event);
+      })
+      .on("mousemove", moveTooltip)
+      .on("mouseout",  hideTooltip);
+
+    // Opponent bar
+    groups.append("rect")
+      .attr("y",      y1(opponent))
+      .attr("height", y1.bandwidth())
+      .attr("x",      0)
+      .attr("width",  d => x(d.Opponent_Runs))
+      .attr("rx",     3)
+      .attr("fill",   "#7A8F7E")
+      .attr("opacity", 0.6)
+      .on("mouseover", (event, d) => {
+        showTooltip(`<strong>PAK vs ${opponent}</strong><br/>
+          ${d["Match Number"]} · ${d.Year}<br/>
+          PAK: ${d.Pakistan_Runs}/${d.Pakistan_Wickets}<br/>
+          ${opponent}: ${d.Opponent_Runs}/${d.Opponent_Wickets}<br/>
+          Result: <strong>${d.Pakistan_Result}</strong>`, event);
+      })
+      .on("mousemove", moveTooltip)
+      .on("mouseout",  hideTooltip);
+
+    // Run labels
+    groups.append("text")
+      .attr("x", d => x(d.Pakistan_Runs) + 4)
+      .attr("y", y1("Pakistan") + y1.bandwidth() / 2 + 4)
+      .style("fill", "#C8FF00").style("font-size", "10px")
+      .text(d => d.Pakistan_Runs);
+
+    groups.append("text")
+      .attr("x", d => x(d.Opponent_Runs) + 4)
+      .attr("y", y1(opponent) + y1.bandwidth() / 2 + 4)
+      .style("fill", "#aaa").style("font-size", "10px")
+      .text(d => d.Opponent_Runs);
+
+    svg.append("g").attr("class", "axis").call(d3.axisLeft(y0));
+    svg.append("g").attr("class", "axis")
+      .attr("transform", `translate(0,${h})`).call(d3.axisBottom(x).ticks(6));
+
+    // Legend
+    [["PAK", "#00A550"], [opponent, "#7A8F7E"]].forEach(([label, col], i) => {
+      svg.append("rect").attr("x", i * 90).attr("y", -5)
+        .attr("width", 10).attr("height", 10).attr("rx", 2).attr("fill", col);
+      svg.append("text").attr("x", i * 90 + 14).attr("y", 4)
+        .style("fill", "#7A8F7E").style("font-size", "11px").text(label);
+    });
+
+    // ── Stats strip ───────────────────────────────────────
+    const statsDiv = document.querySelector("#h2h-stats");
+    const stats = [
+      { val: total,    label: "Matches Played" },
+      { val: wins,     label: "Pakistan Wins" },
+      { val: losses,   label: "Pakistan Losses" },
+      { val: winRate + "%", label: "Win Rate" },
+      { val: avgPak,   label: "Avg PAK Score" },
+      { val: avgOpp,   label: `Avg ${opponent} Score` },
+      { val: highPak,  label: "PAK Highest" },
+      { val: highOpp,  label: `${opponent} Highest` },
+    ];
+
+    stats.forEach(s => {
+      statsDiv.innerHTML += `
+        <div class="h2h-stat">
+          <span class="h2h-stat-val">${s.val}</span>
+          <span class="h2h-stat-label">${s.label}</span>
+        </div>`;
+    });
+  }
+
+  // Draw first team on load
+  if (opponents.length) renderH2H(opponents[0]);
 }
