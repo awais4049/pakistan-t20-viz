@@ -1,0 +1,452 @@
+[
+  {
+    "Player":"Shoaib Malik",
+    "Total_Runs":646,
+    "Innings":31,
+    "Avg_Runs":20.8387096774,
+    "Total_Fours":47,
+    "Total_Sixes":17,
+    "Best_Score":57,
+    "Avg_Strike_Rate":121.8770967742
+  },
+  {
+    "Player":"Shahid Afridi",
+    "Total_Runs":546,
+    "Innings":32,
+    "Avg_Runs":17.0625,
+    "Total_Fours":49,
+    "Total_Sixes":21,
+    "Best_Score":54,
+    "Avg_Strike_Rate":135.4165625
+  },
+  {
+    "Player":"Kamran Akmal",
+    "Total_Runs":524,
+    "Innings":28,
+    "Avg_Runs":18.7142857143,
+    "Total_Fours":50,
+    "Total_Sixes":16,
+    "Best_Score":73,
+    "Avg_Strike_Rate":94.1932142857
+  },
+  {
+    "Player":"Mohammad Hafeez",
+    "Total_Runs":511,
+    "Innings":27,
+    "Avg_Runs":18.9259259259,
+    "Total_Fours":56,
+    "Total_Sixes":11,
+    "Best_Score":64,
+    "Avg_Strike_Rate":113.2440740741
+  },
+  {
+    "Player":"Umar Akmal",
+    "Total_Runs":486,
+    "Innings":18,
+    "Avg_Runs":27.0,
+    "Total_Fours":32,
+    "Total_Sixes":19,
+    "Best_Score":94,
+    "Avg_Strike_Rate":104.2305555556
+  },
+  {
+    "Player":"Mohammad Rizwan",
+    "Total_Runs":456,
+    "Innings":13,
+    "Avg_Runs":35.0769230769,
+    "Total_Fours":38,
+    "Total_Sixes":15,
+    "Best_Score":79,
+    "Avg_Strike_Rate":105.5861538462
+  },
+  {
+    "Player":"Babar Azam",
+    "Total_Runs":427,
+    "Innings":13,
+    "Avg_Runs":32.8461538462,
+    "Total_Fours":41,
+    "Total_Sixes":5,
+    "Best_Score":70,
+    "Avg_Strike_Rate":92.2853846154
+  },
+  {
+    "Player":"Misbah-ul-Haq",
+    "Total_Runs":368,
+    "Innings":17,
+    "Avg_Runs":21.6470588235,
+    "Total_Fours":23,
+    "Total_Sixes":14,
+    "Best_Score":66,
+    "Avg_Strike_Rate":113.2411764706
+  },
+  {
+    "Player":"Salman Butt",
+    "Total_Runs":343,
+    "Innings":14,
+    "Avg_Runs":24.5,
+    "Total_Fours":40,
+    "Total_Sixes":5,
+    "Best_Score":73,
+    "Avg_Strike_Rate":95.8664285714
+  },
+  {
+    "Player":"Imran Nazir",
+    "Total_Runs":300,
+    "Innings":13,
+    "Avg_Runs":23.0769230769,
+    "Total_Fours":37,
+    "Total_Sixes":13,
+    "Best_Score":72,
+    "Avg_Strike_Rate":143.9907692308
+  },
+  {
+    "Player":"Younis Khan",
+    "Total_Runs":299,
+    "Innings":13,
+    "Avg_Runs":23.0,
+    "Total_Fours":21,
+    "Total_Sixes":8,
+    "Best_Score":51,
+    "Avg_Strike_Rate":106.5823076923
+  },
+  {
+    "Player":"Ahmed Shehzad",
+    "Total_Runs":250,
+    "Innings":9,
+    "Avg_Runs":27.7777777778,
+    "Total_Fours":27,
+    "Total_Sixes":5,
+    "Best_Score":111,
+    "Avg_Strike_Rate":88.7333333333
+  },
+  {
+    "Player":"Shan Masood",
+    "Total_Runs":175,
+    "Innings":7,
+    "Avg_Runs":25.0,
+    "Total_Fours":12,
+    "Total_Sixes":1,
+    "Best_Score":52,
+    "Avg_Strike_Rate":104.2914285714
+  },
+  {
+    "Player":"Nasir Jamshed",
+    "Total_Runs":148,
+    "Innings":6,
+    "Avg_Runs":24.6666666667,
+    "Total_Fours":8,
+    "Total_Sixes":8,
+    "Best_Score":56,
+    "Avg_Strike_Rate":102.7833333333
+  },
+  {
+    "Player":"Fakhar Zaman",
+    "Total_Runs":129,
+    "Innings":6,
+    "Avg_Runs":21.5,
+    "Total_Fours":8,
+    "Total_Sixes":6,
+    "Best_Score":55,
+    "Avg_Strike_Rate":107.1833333333
+  },
+  {
+    "Player":"Abdul Razzaq",
+    "Total_Runs":123,
+    "Innings":10,
+    "Avg_Runs":12.3,
+    "Total_Fours":3,
+    "Total_Sixes":7,
+    "Best_Score":29,
+    "Avg_Strike_Rate":110.11
+  },
+  {
+    "Player":"Iftikhar Ahmed",
+    "Total_Runs":114,
+    "Innings":7,
+    "Avg_Runs":16.2857142857,
+    "Total_Fours":6,
+    "Total_Sixes":6,
+    "Best_Score":51,
+    "Avg_Strike_Rate":71.2914285714
+  },
+  {
+    "Player":"Sharjeel Khan",
+    "Total_Runs":112,
+    "Innings":4,
+    "Avg_Runs":28.0,
+    "Total_Fours":18,
+    "Total_Sixes":3,
+    "Best_Score":47,
+    "Avg_Strike_Rate":149.18
+  },
+  {
+    "Player":"Shadab Khan",
+    "Total_Runs":98,
+    "Innings":7,
+    "Avg_Runs":14.0,
+    "Total_Fours":7,
+    "Total_Sixes":5,
+    "Best_Score":52,
+    "Avg_Strike_Rate":111.9942857143
+  },
+  {
+    "Player":"Mohammad Haris",
+    "Total_Runs":97,
+    "Innings":4,
+    "Avg_Runs":24.25,
+    "Total_Fours":6,
+    "Total_Sixes":6,
+    "Best_Score":31,
+    "Avg_Strike_Rate":152.2
+  },
+  {
+    "Player":"Shahzaib Hasan",
+    "Total_Runs":77,
+    "Innings":4,
+    "Avg_Runs":19.25,
+    "Total_Fours":10,
+    "Total_Sixes":3,
+    "Best_Score":35,
+    "Avg_Strike_Rate":82.1625
+  },
+  {
+    "Player":"Khalid Latif",
+    "Total_Runs":69,
+    "Innings":4,
+    "Avg_Runs":17.25,
+    "Total_Fours":6,
+    "Total_Sixes":2,
+    "Best_Score":46,
+    "Avg_Strike_Rate":112.3675
+  },
+  {
+    "Player":"Mohammad Nawaz",
+    "Total_Runs":68,
+    "Innings":5,
+    "Avg_Runs":13.6,
+    "Total_Fours":7,
+    "Total_Sixes":2,
+    "Best_Score":28,
+    "Avg_Strike_Rate":101.454
+  },
+  {
+    "Player":"Umar Gul",
+    "Total_Runs":67,
+    "Innings":8,
+    "Avg_Runs":8.375,
+    "Total_Fours":4,
+    "Total_Sixes":5,
+    "Best_Score":32,
+    "Avg_Strike_Rate":94.62875
+  },
+  {
+    "Player":"Yasir Arafat",
+    "Total_Runs":59,
+    "Innings":6,
+    "Avg_Runs":9.8333333333,
+    "Total_Fours":6,
+    "Total_Sixes":1,
+    "Best_Score":17,
+    "Avg_Strike_Rate":131.3733333333
+  },
+  {
+    "Player":"Asif Ali",
+    "Total_Runs":59,
+    "Innings":5,
+    "Avg_Runs":11.8,
+    "Total_Fours":1,
+    "Total_Sixes":7,
+    "Best_Score":27,
+    "Avg_Strike_Rate":154.76
+  },
+  {
+    "Player":"Sohaib Maqsood",
+    "Total_Runs":45,
+    "Innings":4,
+    "Avg_Runs":11.25,
+    "Total_Fours":3,
+    "Total_Sixes":2,
+    "Best_Score":21,
+    "Avg_Strike_Rate":111.0325
+  },
+  {
+    "Player":"Sohail Tanvir",
+    "Total_Runs":37,
+    "Innings":4,
+    "Avg_Runs":9.25,
+    "Total_Fours":2,
+    "Total_Sixes":3,
+    "Best_Score":14,
+    "Avg_Strike_Rate":130.26
+  },
+  {
+    "Player":"Fawad Alam",
+    "Total_Runs":32,
+    "Innings":4,
+    "Avg_Runs":8.0,
+    "Total_Fours":2,
+    "Total_Sixes":1,
+    "Best_Score":16,
+    "Avg_Strike_Rate":109.4675
+  },
+  {
+    "Player":"Saeed Ajmal",
+    "Total_Runs":23,
+    "Innings":6,
+    "Avg_Runs":3.8333333333,
+    "Total_Fours":2,
+    "Total_Sixes":1,
+    "Best_Score":13,
+    "Avg_Strike_Rate":134.9983333333
+  },
+  {
+    "Player":"Shaheen Shah Afridi",
+    "Total_Runs":22,
+    "Innings":3,
+    "Avg_Runs":7.3333333333,
+    "Total_Fours":2,
+    "Total_Sixes":1,
+    "Best_Score":16,
+    "Avg_Strike_Rate":155.5533333333
+  },
+  {
+    "Player":"Sarfaraz Ahmed",
+    "Total_Runs":21,
+    "Innings":3,
+    "Avg_Runs":7.0,
+    "Total_Fours":1,
+    "Total_Sixes":0,
+    "Best_Score":11,
+    "Avg_Strike_Rate":112.4966666667
+  },
+  {
+    "Player":"Mohammad Wasim",
+    "Total_Runs":16,
+    "Innings":3,
+    "Avg_Runs":5.3333333333,
+    "Total_Fours":2,
+    "Total_Sixes":0,
+    "Best_Score":12,
+    "Avg_Strike_Rate":47.4333333333
+  },
+  {
+    "Player":"Imad Wasim",
+    "Total_Runs":11,
+    "Innings":3,
+    "Avg_Runs":3.6666666667,
+    "Total_Fours":1,
+    "Total_Sixes":0,
+    "Best_Score":11,
+    "Avg_Strike_Rate":30.5533333333
+  },
+  {
+    "Player":"Haris Rauf",
+    "Total_Runs":10,
+    "Innings":3,
+    "Avg_Runs":3.3333333333,
+    "Total_Fours":0,
+    "Total_Sixes":1,
+    "Best_Score":6,
+    "Avg_Strike_Rate":133.3333333333
+  },
+  {
+    "Player":"Mohammad Sami",
+    "Total_Runs":9,
+    "Innings":2,
+    "Avg_Runs":4.5,
+    "Total_Fours":1,
+    "Total_Sixes":0,
+    "Best_Score":5,
+    "Avg_Strike_Rate":150.0
+  },
+  {
+    "Player":"Mohammad Amir",
+    "Total_Runs":5,
+    "Innings":3,
+    "Avg_Runs":1.6666666667,
+    "Total_Fours":0,
+    "Total_Sixes":0,
+    "Best_Score":3,
+    "Avg_Strike_Rate":36.5033333333
+  },
+  {
+    "Player":"Naseem Shah",
+    "Total_Runs":5,
+    "Innings":1,
+    "Avg_Runs":5.0,
+    "Total_Fours":0,
+    "Total_Sixes":0,
+    "Best_Score":5,
+    "Avg_Strike_Rate":166.66
+  },
+  {
+    "Player":"Mohammad Asif",
+    "Total_Runs":4,
+    "Innings":2,
+    "Avg_Runs":2.0,
+    "Total_Fours":1,
+    "Total_Sixes":0,
+    "Best_Score":4,
+    "Avg_Strike_Rate":200.0
+  },
+  {
+    "Player":"Abdur Rehman",
+    "Total_Runs":4,
+    "Innings":2,
+    "Avg_Runs":2.0,
+    "Total_Fours":0,
+    "Total_Sixes":0,
+    "Best_Score":2,
+    "Avg_Strike_Rate":133.33
+  },
+  {
+    "Player":"Zulfiqar Babar",
+    "Total_Runs":3,
+    "Innings":1,
+    "Avg_Runs":3.0,
+    "Total_Fours":0,
+    "Total_Sixes":0,
+    "Best_Score":3,
+    "Avg_Strike_Rate":75.0
+  },
+  {
+    "Player":"Haider Ali",
+    "Total_Runs":2,
+    "Innings":2,
+    "Avg_Runs":1.0,
+    "Total_Fours":0,
+    "Total_Sixes":0,
+    "Best_Score":2,
+    "Avg_Strike_Rate":25.0
+  },
+  {
+    "Player":"Bilawal Bhatti",
+    "Total_Runs":0,
+    "Innings":1,
+    "Avg_Runs":0.0,
+    "Total_Fours":0,
+    "Total_Sixes":0,
+    "Best_Score":0,
+    "Avg_Strike_Rate":0.0
+  },
+  {
+    "Player":"Raza Hasan",
+    "Total_Runs":0,
+    "Innings":1,
+    "Avg_Runs":0.0,
+    "Total_Fours":0,
+    "Total_Sixes":0,
+    "Best_Score":0,
+    "Avg_Strike_Rate":0.0
+  },
+  {
+    "Player":"Wahab Riaz",
+    "Total_Runs":0,
+    "Innings":1,
+    "Avg_Runs":0.0,
+    "Total_Fours":0,
+    "Total_Sixes":0,
+    "Best_Score":0,
+    "Avg_Strike_Rate":0.0
+  }
+]

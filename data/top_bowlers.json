@@ -1,0 +1,254 @@
+[
+  {
+    "Bowler":"Shahid Afridi",
+    "Total_Wickets":39,
+    "Matches":34,
+    "Total_Overs":135.0,
+    "Avg_Economy":6.7279411765,
+    "Total_Runs_Given":907,
+    "Best_Figures":4
+  },
+  {
+    "Bowler":"Saeed Ajmal",
+    "Total_Wickets":36,
+    "Matches":23,
+    "Total_Overs":88.8,
+    "Avg_Economy":6.7847826087,
+    "Total_Runs_Given":607,
+    "Best_Figures":4
+  },
+  {
+    "Bowler":"Umar Gul",
+    "Total_Wickets":35,
+    "Matches":24,
+    "Total_Overs":82.0,
+    "Avg_Economy":7.4916666667,
+    "Total_Runs_Given":604,
+    "Best_Figures":5
+  },
+  {
+    "Bowler":"Shadab Khan",
+    "Total_Wickets":20,
+    "Matches":13,
+    "Total_Overs":49.0,
+    "Avg_Economy":6.2561538462,
+    "Total_Runs_Given":303,
+    "Best_Figures":4
+  },
+  {
+    "Bowler":"Shaheen Shah Afridi",
+    "Total_Wickets":18,
+    "Matches":13,
+    "Total_Overs":49.1,
+    "Avg_Economy":6.5315384615,
+    "Total_Runs_Given":324,
+    "Best_Figures":4
+  },
+  {
+    "Bowler":"Mohammad Amir",
+    "Total_Wickets":17,
+    "Matches":17,
+    "Total_Overs":62.0,
+    "Avg_Economy":7.1947058824,
+    "Total_Runs_Given":445,
+    "Best_Figures":3
+  },
+  {
+    "Bowler":"Haris Rauf",
+    "Total_Wickets":16,
+    "Matches":13,
+    "Total_Overs":49.0,
+    "Avg_Economy":7.2038461538,
+    "Total_Runs_Given":346,
+    "Best_Figures":4
+  },
+  {
+    "Bowler":"Mohammad Hafeez",
+    "Total_Wickets":14,
+    "Matches":26,
+    "Total_Overs":67.0,
+    "Avg_Economy":7.9284615385,
+    "Total_Runs_Given":508,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Mohammad Sami",
+    "Total_Wickets":10,
+    "Matches":6,
+    "Total_Overs":21.0,
+    "Avg_Economy":9.43,
+    "Total_Runs_Given":201,
+    "Best_Figures":3
+  },
+  {
+    "Bowler":"Mohammad Asif",
+    "Total_Wickets":10,
+    "Matches":8,
+    "Total_Overs":30.5,
+    "Avg_Economy":8.26625,
+    "Total_Runs_Given":255,
+    "Best_Figures":4
+  },
+  {
+    "Bowler":"Sohail Tanvir",
+    "Total_Wickets":9,
+    "Matches":13,
+    "Total_Overs":44.0,
+    "Avg_Economy":7.6715384615,
+    "Total_Runs_Given":325,
+    "Best_Figures":3
+  },
+  {
+    "Bowler":"Mohammad Wasim",
+    "Total_Wickets":8,
+    "Matches":6,
+    "Total_Overs":17.0,
+    "Avg_Economy":7.3333333333,
+    "Total_Runs_Given":124,
+    "Best_Figures":4
+  },
+  {
+    "Bowler":"Abdul Razzaq",
+    "Total_Wickets":7,
+    "Matches":8,
+    "Total_Overs":22.3,
+    "Avg_Economy":7.375,
+    "Total_Runs_Given":157,
+    "Best_Figures":3
+  },
+  {
+    "Bowler":"Imad Wasim",
+    "Total_Wickets":7,
+    "Matches":9,
+    "Total_Overs":30.0,
+    "Avg_Economy":6.1011111111,
+    "Total_Runs_Given":184,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Yasir Arafat",
+    "Total_Wickets":6,
+    "Matches":8,
+    "Total_Overs":21.0,
+    "Avg_Economy":9.25875,
+    "Total_Runs_Given":187,
+    "Best_Figures":3
+  },
+  {
+    "Bowler":"Abdur Rehman",
+    "Total_Wickets":6,
+    "Matches":3,
+    "Total_Overs":11.0,
+    "Avg_Economy":7.7766666667,
+    "Total_Runs_Given":87,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Hasan Ali",
+    "Total_Wickets":5,
+    "Matches":6,
+    "Total_Overs":23.0,
+    "Avg_Economy":8.985,
+    "Total_Runs_Given":207,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Zulfiqar Babar",
+    "Total_Wickets":4,
+    "Matches":3,
+    "Total_Overs":11.0,
+    "Avg_Economy":7.0833333333,
+    "Total_Runs_Given":77,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Mohammad Nawaz",
+    "Total_Wickets":3,
+    "Matches":4,
+    "Total_Overs":9.0,
+    "Avg_Economy":6.0,
+    "Total_Runs_Given":67,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Bilawal Bhatti",
+    "Total_Wickets":3,
+    "Matches":2,
+    "Total_Overs":4.0,
+    "Avg_Economy":13.25,
+    "Total_Runs_Given":53,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Shoaib Malik",
+    "Total_Wickets":3,
+    "Matches":12,
+    "Total_Overs":18.0,
+    "Avg_Economy":7.875,
+    "Total_Runs_Given":141,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Naseem Shah",
+    "Total_Wickets":3,
+    "Matches":7,
+    "Total_Overs":26.0,
+    "Avg_Economy":6.19,
+    "Total_Runs_Given":162,
+    "Best_Figures":1
+  },
+  {
+    "Bowler":"Wahab Riaz",
+    "Total_Wickets":3,
+    "Matches":3,
+    "Total_Overs":10.0,
+    "Avg_Economy":8.1666666667,
+    "Total_Runs_Given":82,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Raza Hasan",
+    "Total_Wickets":3,
+    "Matches":4,
+    "Total_Overs":15.0,
+    "Avg_Economy":4.875,
+    "Total_Runs_Given":74,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Fawad Alam",
+    "Total_Wickets":2,
+    "Matches":2,
+    "Total_Overs":4.0,
+    "Avg_Economy":12.33,
+    "Total_Runs_Given":44,
+    "Best_Figures":2
+  },
+  {
+    "Bowler":"Mohammad Irfan",
+    "Total_Wickets":2,
+    "Matches":3,
+    "Total_Overs":10.5,
+    "Avg_Economy":9.2733333333,
+    "Total_Runs_Given":101,
+    "Best_Figures":1
+  },
+  {
+    "Bowler":"Iftikhar Ahmed",
+    "Total_Wickets":1,
+    "Matches":2,
+    "Total_Overs":3.5,
+    "Avg_Economy":10.3,
+    "Total_Runs_Given":28,
+    "Best_Figures":1
+  },
+  {
+    "Bowler":"Junaid Khan",
+    "Total_Wickets":0,
+    "Matches":1,
+    "Total_Overs":3.0,
+    "Avg_Economy":7.66,
+    "Total_Runs_Given":23,
+    "Best_Figures":0
+  }
+]
