@@ -1059,10 +1059,11 @@ function drawH2HDetail(matches, batting, bowling) {
       .attr("transform", `translate(0,${h})`).call(d3.axisBottom(x).ticks(6));
 
     // Legend
+    const legendG = svg.append("g").attr("transform", `translate(0, ${h + 28})`);
     [["PAK", "#00A550"], [opponent, "#7A8F7E"]].forEach(([label, col], i) => {
-      svg.append("rect").attr("x", i * 100).attr("y", -5)
+      legendG.append("rect").attr("x", i * 100).attr("y", 0)
         .attr("width", 10).attr("height", 10).attr("rx", 2).attr("fill", col);
-      svg.append("text").attr("x", i * 100 + 14).attr("y", 4)
+      legendG.append("text").attr("x", i * 100 + 14).attr("y", 9)
         .style("fill", "#7A8F7E").style("font-size", "11px").text(label);
     });
 
