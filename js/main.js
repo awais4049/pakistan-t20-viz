@@ -924,15 +924,8 @@ function drawOverProgression(overData, matches) {
       svg.append("text").attr("x", w + 28).attr("y", i * 20 + 4)
         .style("fill","#7A8F7E").style("font-size","10px").text(label);
     });
-  }
 
-  // Draw first match on load
-  if (matches.length) draw(matches[0]["Match Number"]);
-
-  select.addEventListener("change", e => draw(e.target.value));
-}
-
-// ── 13. HEAD TO HEAD DETAIL ──────────────────────────────────
+    // ── 13. HEAD TO HEAD DETAIL ──────────────────────────────────
 function drawH2HDetail(matches, batting, bowling) {
   const opponents = [...new Set(matches.map(d => d.Opponent))].sort();
   const tabsDiv   = document.querySelector("#team-tabs");
@@ -1081,4 +1074,12 @@ function drawH2HDetail(matches, batting, bowling) {
 
   // Draw first team on load
   if (opponents.length) renderH2H(opponents[0]);
+}
+
+  }
+
+  // Draw first match on load
+  if (matches.length) draw(matches[0]["Match Number"]);
+
+  select.addEventListener("change", e => draw(e.target.value));
 }
