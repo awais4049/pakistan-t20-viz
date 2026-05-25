@@ -918,13 +918,12 @@ function drawOverProgression(overData, matches) {
       .attr("text-anchor","middle").style("fill","#7A8F7E").style("font-size","11px").text("Cumulative Runs");
 
     // Legend
-    const team1 = innings1.length ? innings1[0].Batting_Team : "1st Innings";
-    const team2 = innings2.length ? innings2[0].Batting_Team : "2nd Innings";
-    [["#00C962", team1], ["#FF4444", team2]].forEach(([col, label], i) => {
-      svg.append("line").attr("x1", w + 10).attr("y1", i * 20).attr("x2", w + 25).attr("y2", i * 20)
-        .style("stroke", col).style("stroke-width", 2.5);
-      svg.append("text").attr("x", w + 28).attr("y", i * 20 + 4)
-        .style("fill","#7A8F7E").style("font-size","10px").text(label);
+    const legendG = svg.append("g").attr("transform", `translate(0, ${h + 28})`);
+    [["PAK", "#00A550"], [opponent, "#7A8F7E"]].forEach(([label, col], i) => {
+      legendG.append("rect").attr("x", i * 100).attr("y", 0)
+        .attr("width", 10).attr("height", 10).attr("rx", 2).attr("fill", col);
+      legendG.append("text").attr("x", i * 100 + 14).attr("y", 9)
+        .style("fill", "#7A8F7E").style("font-size", "11px").text(label);
     });
   }
 
