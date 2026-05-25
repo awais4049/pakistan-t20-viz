@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pakistan T20 World Cup Analytics</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- D3.js -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="flag">🟢</span>
+      <span class="nav-title">PAK<span class="accent">STAT</span></span>
+      <span class="nav-sub">T20 World Cup Analytics</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#batting">Batting</a></li>
+      <li><a href="#bowling">Bowling</a></li>
+      <li><a href="#opponents">Opponents</a></li>
+      <li><a href="#progression">Match Flow</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">ICC T20 World Cup · 2007 – 2022</p>
+      <h1 class="hero-title">Pakistan <span class="accent">T20</span><br/>World Cup</h1>
+      <p class="hero-subtitle">Interactive analytics across 8 tournaments, 47 matches, and 15+ years of cricket history.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="stat-num" id="total-matches">–</span><span class="stat-label">Matches</span></div>
+        <div class="hero-stat"><span class="stat-num" id="total-wins">–</span><span class="stat-label">Wins</span></div>
+        <div class="hero-stat"><span class="stat-num" id="total-losses">–</span><span class="stat-label">Losses</span></div>
+        <div class="hero-stat"><span class="stat-num" id="win-pct">–</span><span class="stat-label">Win Rate</span></div>
+      </div>
+    </div>
+    <div class="hero-scroll">↓ scroll to explore</div>
+  </header>
+
+  <!-- ── SECTION 1: OVERVIEW ────────────────────────────── -->
+  <section id="overview" class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <div>
+        <h2 class="section-title">Tournament Overview</h2>
+        <p class="section-desc">Pakistan's win/loss record across every T20 World Cup edition.</p>
+      </div>
+    </div>
+    <div class="chart-grid two-col">
+      <div class="chart-card">
+        <h3 class="chart-title">Results by Year</h3>
+        <p class="chart-desc">Wins and losses across each tournament edition</p>
+        <div id="chart-results-year" class="chart-area"></div>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-title">Batting First vs Second</h3>
+        <p class="chart-desc">Win rate based on batting order</p>
+        <div id="chart-batting-order" class="chart-area"></div>
+      </div>
+    </div>
+    <div class="chart-grid one-col">
+      <div class="chart-card wide">
+        <h3 class="chart-title">Pakistan Score vs Opponent Score</h3>
+        <p class="chart-desc">Click a dot to highlight — green = win, red = loss. Hover for match details.</p>
+        <div id="chart-score-scatter" class="chart-area tall"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 2: BATTING ─────────────────────────────── -->
+  <section id="batting" class="section alt-bg">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <div>
+        <h2 class="section-title">Batting Performance</h2>
+        <p class="section-desc">Top run-scorers, strike rates, and boundary counts across all World Cup matches.</p>
+      </div>
+    </div>
+    <div class="chart-grid one-col">
+      <div class="chart-card wide">
+        <h3 class="chart-title">Top Run Scorers</h3>
+        <p class="chart-desc">Total runs scored — hover a bar for full stats. Click to filter by player.</p>
+        <div id="chart-top-batsmen" class="chart-area tall"></div>
+      </div>
+    </div>
+    <div class="chart-grid two-col">
+      <div class="chart-card">
+        <h3 class="chart-title">Runs vs Strike Rate</h3>
+        <p class="chart-desc">Bubble size = innings played</p>
+        <div id="chart-bat-bubble" class="chart-area"></div>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-title">Boundaries: 4s vs 6s</h3>
+        <p class="chart-desc">Top 10 batsmen — stacked bar</p>
+        <div id="chart-boundaries" class="chart-area"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 3: BOWLING ─────────────────────────────── -->
+  <section id="bowling" class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <div>
+        <h2 class="section-title">Bowling Performance</h2>
+        <p class="section-desc">Wicket-takers, economy rates, and bowling figures across all tournaments.</p>
+      </div>
+    </div>
+    <div class="chart-grid one-col">
+      <div class="chart-card wide">
+        <h3 class="chart-title">Top Wicket Takers</h3>
+        <p class="chart-desc">Total wickets — hover for economy rate and matches played</p>
+        <div id="chart-top-bowlers" class="chart-area tall"></div>
+      </div>
+    </div>
+    <div class="chart-grid two-col">
+      <div class="chart-card">
+        <h3 class="chart-title">Economy Rate vs Wickets</h3>
+        <p class="chart-desc">Lower economy + more wickets = top right quadrant</p>
+        <div id="chart-bowl-scatter" class="chart-area"></div>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-title">Bowling in Wins vs Losses</h3>
+        <p class="chart-desc">Average economy in winning vs losing matches</p>
+        <div id="chart-bowl-winloss" class="chart-area"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 4: OPPONENTS ───────────────────────────── -->
+  <section id="opponents" class="section alt-bg">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <div>
+        <h2 class="section-title">Head-to-Head Records</h2>
+        <p class="section-desc">Pakistan's record against every opponent they've faced in T20 World Cups.</p>
+      </div>
+    </div>
+    <div class="chart-grid two-col">
+      <div class="chart-card">
+        <h3 class="chart-title">Win Rate by Opponent</h3>
+        <p class="chart-desc">Sorted by total matches played</p>
+        <div id="chart-win-opponent" class="chart-area tall"></div>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-title">Matches by Opponent</h3>
+        <p class="chart-desc">Donut chart — hover for win/loss breakdown</p>
+        <div id="chart-opponent-donut" class="chart-area tall"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 5: MATCH FLOW ──────────────────────────── -->
+  <section id="progression" class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <div>
+        <h2 class="section-title">Match Flow</h2>
+        <p class="section-desc">Over-by-over run progression for any match. Select a match to compare both innings.</p>
+      </div>
+    </div>
+    <div class="chart-grid one-col">
+      <div class="chart-card wide">
+        <div class="chart-controls">
+          <label for="match-select">Select Match:</label>
+          <select id="match-select"></select>
+        </div>
+        <div id="chart-over-progression" class="chart-area tall"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <p>Pakistan T20 World Cup Analytics · DSC327 Data Visualization Project · COMSATS University Islamabad</p>
+    <p class="footer-sub">Built with D3.js · Data: ICC T20 World Cup 2007–2022</p>
+  </footer>
+
+  <!-- ── TOOLTIP ────────────────────────────────────────── -->
+  <div id="tooltip" class="tooltip"></div>
+
+  <!-- ── SCRIPTS ────────────────────────────────────────── -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>
