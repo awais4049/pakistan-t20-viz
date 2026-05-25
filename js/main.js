@@ -96,7 +96,6 @@ Promise.all([
 
   // ── CHART 12: Over Progression ────────────────────────────
   drawOverProgression(overData, matches);
-
   drawH2HDetail(matches, batting, bowling);
 
 }).catch(err => console.error("Data load error:", err));
