@@ -1,0 +1,371 @@
+/* ── CSS VARIABLES ─────────────────────────────────────── */
+:root {
+  --green:       #00A550;
+  --green-dark:  #007A3D;
+  --green-light: #00C962;
+  --white:       #FFFFFF;
+  --off-white:   #F4F6F0;
+  --bg:          #0A0F0D;
+  --bg-card:     #111810;
+  --bg-alt:      #0F1A12;
+  --border:      rgba(0, 165, 80, 0.15);
+  --text:        #E8EDE9;
+  --text-muted:  #7A8F7E;
+  --accent:      #C8FF00;
+  --red:         #FF4444;
+  --gold:        #FFD700;
+  font-size: 16px;
+}
+
+/* ── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAVBAR ─────────────────────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  height: 64px;
+  background: rgba(10, 15, 13, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.nav-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  color: var(--white);
+}
+
+.nav-title .accent { color: var(--accent); }
+
+.nav-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-left: 0.4rem;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--green-light); }
+
+/* ── HERO ───────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2.5rem 4rem;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(0,165,80,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(200,255,0,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-content { max-width: 700px; position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--green-light);
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+}
+
+.hero-title .accent { color: var(--accent); }
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 500px;
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ── SECTIONS ───────────────────────────────────────────── */
+.section {
+  padding: 6rem 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.alt-bg {
+  max-width: 100%;
+  background: var(--bg-alt);
+  padding-left: calc((100vw - 1400px) / 2 + 2.5rem);
+  padding-right: calc((100vw - 1400px) / 2 + 2.5rem);
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  color: var(--border);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  letter-spacing: 0.03em;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.section-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+/* ── CHART GRID ─────────────────────────────────────────── */
+.chart-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-grid.two-col { grid-template-columns: 1fr 1fr; }
+.chart-grid.one-col { grid-template-columns: 1fr; }
+
+/* ── CHART CARD ─────────────────────────────────────────── */
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.8rem;
+  transition: border-color 0.3s;
+}
+
+.chart-card:hover { border-color: rgba(0, 165, 80, 0.35); }
+
+.chart-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+}
+
+.chart-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+  font-weight: 300;
+}
+
+.chart-area {
+  width: 100%;
+  min-height: 280px;
+}
+
+.chart-area.tall { min-height: 380px; }
+
+/* ── CHART CONTROLS ─────────────────────────────────────── */
+.chart-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.chart-controls label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.chart-controls select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  min-width: 280px;
+}
+
+.chart-controls select:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+/* ── TOOLTIP ─────────────────────────────────────────────── */
+.tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: rgba(10, 15, 13, 0.95);
+  border: 1px solid var(--green);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.6;
+  max-width: 220px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 999;
+}
+
+.tooltip.visible { opacity: 1; }
+.tooltip strong { color: var(--accent); }
+
+/* ── D3 CHART ELEMENTS ──────────────────────────────────── */
+.axis path,
+.axis line {
+  stroke: rgba(122, 143, 126, 0.3);
+}
+
+.axis text {
+  fill: var(--text-muted);
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+}
+
+.grid line {
+  stroke: rgba(122, 143, 126, 0.1);
+  stroke-dasharray: 3, 3;
+}
+
+.bar-win    { fill: var(--green); }
+.bar-loss   { fill: var(--red); }
+.bar-tie    { fill: var(--gold); }
+.dot-win    { fill: var(--green); }
+.dot-loss   { fill: var(--red); }
+.dot-tie    { fill: var(--gold); }
+
+.line-pak   { stroke: var(--green-light); stroke-width: 2.5px; fill: none; }
+.line-opp   { stroke: var(--red);         stroke-width: 2.5px; fill: none; }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+.footer {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  padding: 2rem 2.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-sub {
+  margin-top: 0.3rem;
+  font-size: 0.72rem;
+  opacity: 0.6;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .chart-grid.two-col { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .alt-bg { padding-left: 2.5rem; padding-right: 2.5rem; }
+  .hero-stats { gap: 1.5rem; }
+}
