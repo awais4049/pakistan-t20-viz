@@ -204,7 +204,7 @@ body {
 .section-num {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 4rem;
-  color: var(--border);
+  color: rgba(0, 165, 80, 0.35);
   line-height: 1;
   flex-shrink: 0;
 }
@@ -243,7 +243,7 @@ body {
   transition: border-color 0.3s;
 }
 
-.chart-card:hover { border-color: rgba(0, 165, 80, 0.35); }
+.chart-card:hover { border-color: rgba(0, 165, 80, 0.85); }
 
 .chart-title {
   font-family: 'Bebas Neue', sans-serif;
