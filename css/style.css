@@ -243,7 +243,7 @@ body {
   transition: border-color 0.3s;
 }
 
-.chart-card:hover { border-color: rgba(0, 190, 80, 0.85); }
+.chart-card:hover { border-color: rgba(0, 210, 80, 0.85); }
 
 .chart-title {
   font-family: 'Bebas Neue', sans-serif;
