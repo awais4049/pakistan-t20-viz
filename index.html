@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pakistan T20 World Cup Analytics</title>
   <link rel="stylesheet" href="css/style.css" />
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <!-- D3.js -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -69,7 +67,7 @@
     <div class="chart-grid one-col">
       <div class="chart-card wide">
         <h3 class="chart-title">Pakistan Score vs Opponent Score</h3>
-        <p class="chart-desc">Click a dot to highlight — green = win, red = loss. Hover for match details.</p>
+        <p class="chart-desc">Green = win, red = loss. Hover for match details.</p>
         <div id="chart-score-scatter" class="chart-area tall"></div>
       </div>
     </div>
@@ -87,7 +85,7 @@
     <div class="chart-grid one-col">
       <div class="chart-card wide">
         <h3 class="chart-title">Top Run Scorers</h3>
-        <p class="chart-desc">Total runs scored — hover a bar for full stats. Click to filter by player.</p>
+        <p class="chart-desc">Total runs scored — hover a bar for full stats.</p>
         <div id="chart-top-batsmen" class="chart-area tall"></div>
       </div>
     </div>
@@ -124,7 +122,7 @@
     <div class="chart-grid two-col">
       <div class="chart-card">
         <h3 class="chart-title">Economy Rate vs Wickets</h3>
-        <p class="chart-desc">Lower economy + more wickets = top right quadrant</p>
+        <p class="chart-desc">Lower economy + more wickets = better bowler</p>
         <div id="chart-bowl-scatter" class="chart-area"></div>
       </div>
       <div class="chart-card">
@@ -159,7 +157,7 @@
     <div class="chart-grid one-col">
       <div class="chart-card wide">
         <h3 class="chart-title">Head-to-Head Detail</h3>
-        <p class="chart-desc">Select a team to see Pakistan's detailed record against them</p>
+        <p class="chart-desc">Select a team below — green bar = PAK win, red = PAK loss. Hover for full match details.</p>
         <div id="team-tabs" class="team-tabs"></div>
         <div id="chart-h2h-detail" class="chart-area tall"></div>
         <div id="h2h-stats" class="h2h-stats"></div>
