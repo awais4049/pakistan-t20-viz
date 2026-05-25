@@ -61,44 +61,19 @@ Promise.all([
     }, 30);
   }
 
-  // ── CHART 1: Results by Year ───────────────────────────────
   drawResultsByYear(matches);
-
-  // ── CHART 2: Batting Order Win Rate ───────────────────────
   drawBattingOrder(matches);
-
-  // ── CHART 3: Score Scatter ────────────────────────────────
   drawScoreScatter(matches);
-
-  // ── CHART 4: Top Batsmen ──────────────────────────────────
   drawTopBatsmen(topBatsmen);
-
-  // ── CHART 5: Runs vs Strike Rate Bubble ───────────────────
   drawBatBubble(topBatsmen);
-
-  // ── CHART 6: Boundaries stacked bar ───────────────────────
   drawBoundaries(topBatsmen);
-
-  // ── CHART 7: Top Bowlers ──────────────────────────────────
   drawTopBowlers(topBowlers);
-
-  // ── CHART 8: Economy vs Wickets Scatter ───────────────────
   drawBowlScatter(topBowlers);
-
-  // ── CHART 9: Bowling in Wins vs Losses ────────────────────
   drawBowlWinLoss(bowling);
-
-  // ── CHART 10: Win Rate by Opponent ────────────────────────
   drawWinByOpponent(winOpponent);
-
-  // ── CHART 11: Opponent Donut ──────────────────────────────
   drawOpponentDonut(winOpponent);
-
-  // ── CHART 12: Over Progression ────────────────────────────
   drawOverProgression(overData, matches);
-
-  // ── CHART 13: Head to Head Detail ─────────────────────────
-  drawH2HDetail(matches, batting, bowling);
+  drawH2HDetail(matches);
 
 }).catch(err => console.error("Data load error:", err));
 
@@ -115,7 +90,6 @@ function drawResultsByYear(matches) {
   const w = W - margin.left - margin.right;
   const h = H - margin.top - margin.bottom;
 
-  // Aggregate by year
   const byYear = d3.rollup(matches,
     v => ({
       Win:  v.filter(d => d.Pakistan_Result === "Win").length,
@@ -138,11 +112,9 @@ function drawResultsByYear(matches) {
   const y = d3.scaleLinear().domain([0, d3.max(data, d => d.Win + d.Loss + d.Tie)]).nice().range([h, 0]);
   const color = d3.scaleOrdinal().domain(keys).range(["#00A550", "#FF4444", "#FFD700"]);
 
-  // Grid
   svg.append("g").attr("class", "grid")
     .call(d3.axisLeft(y).tickSize(-w).tickFormat(""));
 
-  // Bars
   svg.selectAll(".layer")
     .data(stack)
     .enter().append("g")
@@ -165,13 +137,11 @@ function drawResultsByYear(matches) {
       .on("mousemove", moveTooltip)
       .on("mouseout",  hideTooltip);
 
-  // Axes
   svg.append("g").attr("class", "axis")
     .attr("transform", `translate(0,${h})`).call(d3.axisBottom(x));
   svg.append("g").attr("class", "axis")
     .call(d3.axisLeft(y).ticks(5));
 
-  // Legend
   const legend = svg.append("g").attr("transform", `translate(${w - 100}, 0)`);
   keys.forEach((k, i) => {
     legend.append("rect").attr("x", 0).attr("y", i * 18)
@@ -224,7 +194,6 @@ function drawBattingOrder(matches) {
       .on("mousemove", moveTooltip)
       .on("mouseout",  hideTooltip);
 
-  // Value labels
   svg.selectAll(".label")
     .data(data)
     .enter().append("text")
@@ -263,11 +232,9 @@ function drawScoreScatter(matches) {
   const x = d3.scaleLinear().domain([runMin, runMax]).range([0, w]);
   const y = d3.scaleLinear().domain([runMin, runMax]).range([h, 0]);
 
-  // Grid
   svg.append("g").attr("class", "grid")
     .call(d3.axisLeft(y).tickSize(-w).tickFormat(""));
 
-  // Diagonal reference line (equal scores)
   svg.append("line")
     .attr("x1", x(runMin)).attr("y1", y(runMin))
     .attr("x2", x(runMax)).attr("y2", y(runMax))
@@ -275,13 +242,6 @@ function drawScoreScatter(matches) {
     .style("stroke-dasharray", "5,5")
     .style("stroke-width", 1.5);
 
-  svg.append("text")
-    .attr("x", x(runMax) - 10).attr("y", y(runMax) - 8)
-    .style("fill", "rgba(255,255,255,0.2)")
-    .style("font-size", "10px")
-    .text("Equal scores");
-
-  // Dots
   svg.selectAll(".dot")
     .data(valid)
     .enter().append("circle")
@@ -302,27 +262,20 @@ function drawScoreScatter(matches) {
       .on("mousemove", moveTooltip)
       .on("mouseout",  hideTooltip);
 
-  // Axes
   svg.append("g").attr("class", "axis")
     .attr("transform", `translate(0,${h})`).call(d3.axisBottom(x));
   svg.append("g").attr("class", "axis")
     .call(d3.axisLeft(y));
 
-  // Axis labels
-  svg.append("text")
-    .attr("x", w / 2).attr("y", h + 45)
+  svg.append("text").attr("x", w / 2).attr("y", h + 45)
     .attr("text-anchor", "middle")
-    .style("fill", "#7A8F7E").style("font-size", "12px")
-    .text("Opponent Runs");
+    .style("fill", "#7A8F7E").style("font-size", "12px").text("Opponent Runs");
 
-  svg.append("text")
-    .attr("transform", "rotate(-90)")
+  svg.append("text").attr("transform", "rotate(-90)")
     .attr("x", -h / 2).attr("y", -45)
     .attr("text-anchor", "middle")
-    .style("fill", "#7A8F7E").style("font-size", "12px")
-    .text("Pakistan Runs");
+    .style("fill", "#7A8F7E").style("font-size", "12px").text("Pakistan Runs");
 
-  // Legend
   [["Win", "#00A550"], ["Loss", "#FF4444"], ["Tie", "#FFD700"]].forEach(([label, col], i) => {
     svg.append("circle").attr("cx", 10 + i * 70).attr("cy", -5).attr("r", 5).attr("fill", col);
     svg.append("text").attr("x", 18 + i * 70).attr("y", -1)
@@ -367,34 +320,28 @@ function drawTopBatsmen(topBatsmen) {
       .transition().duration(800).delay((d, i) => i * 40)
       .attr("width",  d => x(d.Total_Runs));
 
-  // Value labels
   svg.selectAll(".val-label")
     .data(data)
     .enter().append("text")
       .attr("x", d => x(d.Total_Runs) + 5)
       .attr("y", d => y(d.Player) + y.bandwidth() / 2 + 4)
-      .style("fill", "#C8FF00")
-      .style("font-size", "11px")
+      .style("fill", "#C8FF00").style("font-size", "11px")
       .text(d => d.Total_Runs);
 
-  // Avg label
   svg.selectAll(".avg-label")
     .data(data)
     .enter().append("text")
       .attr("x", w + 10)
       .attr("y", d => y(d.Player) + y.bandwidth() / 2 + 4)
-      .style("fill", "#7A8F7E")
-      .style("font-size", "10px")
+      .style("fill", "#7A8F7E").style("font-size", "10px")
       .text(d => `avg ${d.Avg_Runs.toFixed(1)}`);
 
   svg.selectAll(".bar-hit")
     .data(data)
     .enter().append("rect")
-      .attr("class", "bar-hit")
       .attr("y",      d => y(d.Player))
       .attr("height", y.bandwidth())
-      .attr("x",      0)
-      .attr("width",  d => x(d.Total_Runs))
+      .attr("x",      0).attr("width", d => x(d.Total_Runs))
       .attr("fill",   "transparent")
       .on("mouseover", (event, d) => {
         showTooltip(`<strong>${d.Player}</strong><br/>
@@ -509,7 +456,6 @@ function drawBoundaries(topBatsmen) {
   svg.append("g").attr("class", "axis").call(d3.axisLeft(y));
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${h})`).call(d3.axisBottom(x).ticks(5));
 
-  // Legend
   [["4s", "#00A550"], ["6s", "#C8FF00"]].forEach(([label, col], i) => {
     svg.append("rect").attr("x", w - 60 + i * 30).attr("y", -5)
       .attr("width", 10).attr("height", 10).attr("rx", 2).attr("fill", col);
@@ -547,10 +493,8 @@ function drawTopBowlers(topBowlers) {
     .enter().append("rect")
       .attr("y",      d => y(d.Bowler))
       .attr("height", y.bandwidth())
-      .attr("x",      0)
-      .attr("width",  0)
-      .attr("rx",     3)
-      .attr("fill",   "#FF4444")
+      .attr("x",      0).attr("width", 0)
+      .attr("rx",     3).attr("fill", "#FF4444")
       .transition().duration(800).delay((d, i) => i * 40)
       .attr("width",  d => x(d.Total_Wickets));
 
@@ -575,8 +519,8 @@ function drawTopBowlers(topBowlers) {
     .enter().append("rect")
       .attr("y",      d => y(d.Bowler))
       .attr("height", y.bandwidth())
-      .attr("x",      0).attr("width", d => x(d.Total_Wickets))
-      .attr("fill",   "transparent")
+      .attr("x", 0).attr("width", d => x(d.Total_Wickets))
+      .attr("fill", "transparent")
       .on("mouseover", (event, d) => {
         showTooltip(`<strong>${d.Bowler}</strong><br/>
           Wickets: ${d.Total_Wickets}<br/>
@@ -619,8 +563,7 @@ function drawBowlScatter(topBowlers) {
       .attr("r",       6)
       .attr("fill",    "#FF4444")
       .attr("opacity", 0.75)
-      .attr("stroke",  "#C8FF00")
-      .attr("stroke-width", 1)
+      .attr("stroke",  "#C8FF00").attr("stroke-width", 1)
       .on("mouseover", (event, d) => {
         showTooltip(`<strong>${d.Bowler}</strong><br/>
           Wickets: ${d.Total_Wickets}<br/>
@@ -648,7 +591,6 @@ function drawBowlWinLoss(bowling) {
   const w = W - margin.left - margin.right;
   const h = H - margin.top - margin.bottom;
 
-  // Average economy per bowler split by win/loss
   const byResult = d3.rollup(
     bowling.filter(d => d.Economy > 0 && d.Pakistan_Result !== "Tie"),
     v => d3.mean(v, d => d.Economy),
@@ -677,8 +619,7 @@ function drawBowlWinLoss(bowling) {
       .attr("y",      d => y(d.economy))
       .attr("width",  x.bandwidth())
       .attr("height", d => h - y(d.economy))
-      .attr("rx",     4)
-      .attr("fill",   d => color(d.result))
+      .attr("rx",     4).attr("fill", d => color(d.result))
       .on("mouseover", (event, d) => {
         showTooltip(`<strong>${d.result} matches</strong><br/>
           Avg Economy: ${d.economy.toFixed(2)}`, event);
@@ -697,9 +638,6 @@ function drawBowlWinLoss(bowling) {
 
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${h})`).call(d3.axisBottom(x));
   svg.append("g").attr("class", "axis").call(d3.axisLeft(y).ticks(5));
-
-  svg.append("text").attr("transform","rotate(-90)").attr("x",-h/2).attr("y",-42)
-    .attr("text-anchor","middle").style("fill","#7A8F7E").style("font-size","11px").text("Avg Economy Rate");
 }
 
 
@@ -711,9 +649,7 @@ function drawWinByOpponent(winOpponent) {
   const w = W - margin.left - margin.right;
   const h = H - margin.top - margin.bottom;
 
-  const data = winOpponent
-    .filter(d => d.Total >= 1)
-    .sort((a, b) => b.Total - a.Total);
+  const data = winOpponent.filter(d => d.Total >= 1).sort((a, b) => b.Total - a.Total);
 
   const svg = d3.select(container).append("svg")
     .attr("width", W).attr("height", H)
@@ -722,26 +658,23 @@ function drawWinByOpponent(winOpponent) {
   const x = d3.scaleLinear().domain([0, 100]).range([0, w]);
   const y = d3.scaleBand().domain(data.map(d => d.Opponent)).range([0, h]).padding(0.3);
 
-  // Background track
   svg.selectAll(".track")
     .data(data)
     .enter().append("rect")
       .attr("y",      d => y(d.Opponent))
       .attr("height", y.bandwidth())
-      .attr("x",      0).attr("width", w)
-      .attr("rx",     4).attr("fill","rgba(255,255,255,0.04)");
+      .attr("x", 0).attr("width", w)
+      .attr("rx", 4).attr("fill","rgba(255,255,255,0.04)");
 
-  // Win rate bar
   svg.selectAll(".bar")
     .data(data)
     .enter().append("rect")
       .attr("y",      d => y(d.Opponent))
       .attr("height", y.bandwidth())
-      .attr("x",      0).attr("width", 0)
-      .attr("rx",     4)
-      .attr("fill",   d => d.Win_Rate >= 50 ? "#00A550" : "#FF4444")
+      .attr("x", 0).attr("width", 0).attr("rx", 4)
+      .attr("fill", d => d.Win_Rate >= 50 ? "#00A550" : "#FF4444")
       .transition().duration(800).delay((d,i) => i * 40)
-      .attr("width",  d => x(d.Win_Rate));
+      .attr("width", d => x(d.Win_Rate));
 
   svg.selectAll(".pct")
     .data(data)
@@ -804,8 +737,7 @@ function drawOpponentDonut(winOpponent) {
   arcs.append("path")
     .attr("d", arc)
     .attr("fill", (d,i) => color(i))
-    .attr("stroke", "#0A0F0D")
-    .attr("stroke-width", 2)
+    .attr("stroke", "#0A0F0D").attr("stroke-width", 2)
     .on("mouseover", function(event, d) {
       d3.select(this).transition().duration(150).attr("d", arcHover);
       showTooltip(`<strong>vs ${d.data.Opponent}</strong><br/>
@@ -819,7 +751,6 @@ function drawOpponentDonut(winOpponent) {
       hideTooltip();
     });
 
-  // Center label
   svg.append("text").attr("text-anchor","middle").attr("dy","-0.2em")
     .style("fill","#E8EDE9").style("font-size","28px").style("font-family","'Bebas Neue',sans-serif")
     .text(d3.sum(data, d => d.Total));
@@ -827,7 +758,6 @@ function drawOpponentDonut(winOpponent) {
     .style("fill","#7A8F7E").style("font-size","11px").style("letter-spacing","0.1em")
     .text("MATCHES");
 
-  // Labels for bigger slices
   arcs.filter(d => (d.endAngle - d.startAngle) > 0.3)
     .append("text")
       .attr("transform", d => `translate(${arc.centroid(d)})`)
@@ -841,7 +771,6 @@ function drawOpponentDonut(winOpponent) {
 function drawOverProgression(overData, matches) {
   const select = document.querySelector("#match-select");
 
-  // Populate dropdown
   matches.forEach(m => {
     const opt = document.createElement("option");
     opt.value = m["Match Number"];
@@ -878,18 +807,11 @@ function drawOverProgression(overData, matches) {
 
     const lineGen = d3.line().x(d => x(d.Over)).y(d => y(d.Cumulative_Runs)).curve(d3.curveMonotoneX);
 
-    // Innings 1 area
     const area1 = d3.area().x(d => x(d.Over)).y0(h).y1(d => y(d.Cumulative_Runs)).curve(d3.curveMonotoneX);
-    svg.append("path").datum(innings1).attr("d", area1)
-      .attr("fill","rgba(0,165,80,0.1)");
-
-    // Innings 1 line
+    svg.append("path").datum(innings1).attr("d", area1).attr("fill","rgba(0,165,80,0.1)");
     svg.append("path").datum(innings1).attr("d", lineGen).attr("class","line-pak");
-
-    // Innings 2 line
     svg.append("path").datum(innings2).attr("d", lineGen).attr("class","line-opp");
 
-    // Dots with tooltip
     [innings1, innings2].forEach((inn, idx) => {
       svg.selectAll(`.dot-inn${idx}`)
         .data(inn)
@@ -917,29 +839,26 @@ function drawOverProgression(overData, matches) {
     svg.append("text").attr("transform","rotate(-90)").attr("x",-h/2).attr("y",-42)
       .attr("text-anchor","middle").style("fill","#7A8F7E").style("font-size","11px").text("Cumulative Runs");
 
-    // Legend
-    const legendG = svg.append("g").attr("transform", `translate(0, ${h + 28})`);
-    [["PAK", "#00A550"], [opponent, "#7A8F7E"]].forEach(([label, col], i) => {
-      legendG.append("rect").attr("x", i * 100).attr("y", 0)
-        .attr("width", 10).attr("height", 10).attr("rx", 2).attr("fill", col);
-      legendG.append("text").attr("x", i * 100 + 14).attr("y", 9)
-        .style("fill", "#7A8F7E").style("font-size", "11px").text(label);
+    const team1 = innings1.length ? innings1[0].Batting_Team : "1st Innings";
+    const team2 = innings2.length ? innings2[0].Batting_Team : "2nd Innings";
+    [["#00C962", team1], ["#FF4444", team2]].forEach(([col, label], i) => {
+      svg.append("line").attr("x1", w + 10).attr("y1", i * 20).attr("x2", w + 25).attr("y2", i * 20)
+        .style("stroke", col).style("stroke-width", 2.5);
+      svg.append("text").attr("x", w + 28).attr("y", i * 20 + 4)
+        .style("fill","#7A8F7E").style("font-size","10px").text(label);
     });
   }
 
-  // Draw first match on load
   if (matches.length) draw(matches[0]["Match Number"]);
-
   select.addEventListener("change", e => draw(e.target.value));
 }
 
 
 // ── 13. HEAD TO HEAD DETAIL ──────────────────────────────────
-function drawH2HDetail(matches, batting, bowling) {
+function drawH2HDetail(matches) {
   const opponents = [...new Set(matches.map(d => d.Opponent))].sort();
   const tabsDiv   = document.querySelector("#team-tabs");
 
-  // Build tabs
   opponents.forEach((opp, i) => {
     const btn = document.createElement("button");
     btn.className = "team-tab" + (i === 0 ? " active" : "");
@@ -966,11 +885,11 @@ function drawH2HDetail(matches, batting, bowling) {
     const highPak  = d3.max(filtered, d => d.Pakistan_Runs);
     const highOpp  = d3.max(filtered, d => d.Opponent_Runs);
 
-    // ── Bar chart: one bar group per match ────────────────
     const container = "#chart-h2h-detail";
     const W  = getWidth(container);
-    const H  = Math.max(260, total * 60 + 60);
-    const margin = { top: 20, right: 60, bottom: 40, left: 140 };
+    // extra bottom margin to fit legend below x-axis
+    const margin = { top: 50, right: 70, bottom: 60, left: 150 };
+    const H  = Math.max(280, total * 65 + margin.top + margin.bottom);
     const w  = W - margin.left - margin.right;
     const h  = H - margin.top - margin.bottom;
 
@@ -985,10 +904,23 @@ function drawH2HDetail(matches, batting, bowling) {
     const y0 = d3.scaleBand().domain(labels).range([0, h]).padding(0.3);
     const y1 = d3.scaleBand().domain(["Pakistan", opponent]).range([0, y0.bandwidth()]).padding(0.1);
 
-    // Grid
+    // Grid lines
     svg.append("g").attr("class", "grid")
       .call(d3.axisBottom(x).tickSize(h).tickFormat(""))
       .attr("transform", "translate(0,0)");
+
+    // Legend — placed at top inside the margin area
+    const legendG = svg.append("g").attr("transform", `translate(0, -30)`);
+    [["PAK", "#00A550"], [opponent, "#7A8F7E"]].forEach(([label, col], i) => {
+      legendG.append("rect")
+        .attr("x", i * 120).attr("y", 0)
+        .attr("width", 12).attr("height", 12)
+        .attr("rx", 2).attr("fill", col);
+      legendG.append("text")
+        .attr("x", i * 120 + 16).attr("y", 10)
+        .style("fill", "#E8EDE9").style("font-size", "12px")
+        .text(label);
+    });
 
     const groups = svg.selectAll(".match-group")
       .data(filtered)
@@ -1022,7 +954,7 @@ function drawH2HDetail(matches, batting, bowling) {
       .attr("width",  d => x(d.Opponent_Runs))
       .attr("rx",     3)
       .attr("fill",   "#7A8F7E")
-      .attr("opacity", 0.6)
+      .attr("opacity", 0.55)
       .on("mouseover", (event, d) => {
         showTooltip(`<strong>PAK vs ${opponent}</strong><br/>
           ${d["Match Number"]} · ${d.Year}<br/>
@@ -1035,41 +967,37 @@ function drawH2HDetail(matches, batting, bowling) {
 
     // Run value labels
     groups.append("text")
-      .attr("x", d => x(d.Pakistan_Runs) + 4)
+      .attr("x", d => x(d.Pakistan_Runs) + 5)
       .attr("y", y1("Pakistan") + y1.bandwidth() / 2 + 4)
-      .style("fill", "#C8FF00").style("font-size", "10px")
+      .style("fill", "#C8FF00").style("font-size", "11px").style("font-weight","600")
       .text(d => d.Pakistan_Runs);
 
     groups.append("text")
-      .attr("x", d => x(d.Opponent_Runs) + 4)
+      .attr("x", d => x(d.Opponent_Runs) + 5)
       .attr("y", d => y1(opponent) + y1.bandwidth() / 2 + 4)
-      .style("fill", "#aaa").style("font-size", "10px")
+      .style("fill", "#ccc").style("font-size", "11px")
       .text(d => d.Opponent_Runs);
 
-    // Result badge
+    // Result badge on the right
     groups.append("text")
-      .attr("x", w + 5)
+      .attr("x", w + 8)
       .attr("y", y0.bandwidth() / 2 + 4)
       .style("fill", d => d.Pakistan_Result === "Win" ? "#00A550" : d.Pakistan_Result === "Loss" ? "#FF4444" : "#FFD700")
-      .style("font-size", "10px").style("font-weight", "600")
+      .style("font-size", "11px").style("font-weight", "700")
       .text(d => d.Pakistan_Result);
 
     svg.append("g").attr("class", "axis").call(d3.axisLeft(y0));
     svg.append("g").attr("class", "axis")
       .attr("transform", `translate(0,${h})`).call(d3.axisBottom(x).ticks(6));
 
-    // Legend
-    const legendG = svg.append("g").attr("transform", `translate(0, ${h + 28})`);
-    [["PAK", "#00A550"], [opponent, "#7A8F7E"]].forEach(([label, col], i) => {
-      legendG.append("rect").attr("x", i * 100).attr("y", 0)
-        .attr("width", 10).attr("height", 10).attr("rx", 2).attr("fill", col);
-      legendG.append("text").attr("x", i * 100 + 14).attr("y", 9)
-        .style("fill", "#7A8F7E").style("font-size", "11px").text(label);
-    });
+    // X axis label
+    svg.append("text").attr("x", w / 2).attr("y", h + 45)
+      .attr("text-anchor", "middle")
+      .style("fill", "#7A8F7E").style("font-size", "11px").text("Runs Scored");
 
-    // ── Stats strip ───────────────────────────────────────
+    // Stats strip
     const statsDiv = document.querySelector("#h2h-stats");
-    const stats = [
+    [
       { val: total,         label: "Matches" },
       { val: wins,          label: "PAK Wins" },
       { val: losses,        label: "PAK Losses" },
@@ -1078,9 +1006,7 @@ function drawH2HDetail(matches, batting, bowling) {
       { val: avgOpp,        label: `Avg ${opponent} Score` },
       { val: highPak,       label: "PAK Highest" },
       { val: highOpp,       label: `${opponent} Highest` },
-    ];
-
-    stats.forEach(s => {
+    ].forEach(s => {
       statsDiv.innerHTML += `
         <div class="h2h-stat">
           <span class="h2h-stat-val">${s.val}</span>
@@ -1089,6 +1015,5 @@ function drawH2HDetail(matches, batting, bowling) {
     });
   }
 
-  // Draw first team on load
   if (opponents.length) renderH2H(opponents[0]);
 }
