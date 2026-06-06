@@ -86,7 +86,7 @@ Promise.all([
 function drawResultsByYear(matches) {
   const container = "#chart-results-year";
   const W = getWidth(container), H = 280;
-  const margin = { top: 20, right: 20, bottom: 50, left: 40 };
+  const margin = { top: 40, right: 20, bottom: 50, left: 40 };
   const w = W - margin.left - margin.right;
   const h = H - margin.top - margin.bottom;
 
@@ -142,12 +142,12 @@ function drawResultsByYear(matches) {
   svg.append("g").attr("class", "axis")
     .call(d3.axisLeft(y).ticks(5));
 
-  const legend = svg.append("g").attr("transform", `translate(${w - 100}, 0)`);
+  const legend = svg.append("g").attr("transform", `translate(0, -28)`);
   keys.forEach((k, i) => {
-    legend.append("rect").attr("x", 0).attr("y", i * 18)
+    legend.append("rect").attr("x", i * 70).attr("y", 0)
       .attr("width", 12).attr("height", 12).attr("rx", 2).attr("fill", color(k));
-    legend.append("text").attr("x", 16).attr("y", i * 18 + 10)
-      .text(k).style("fill", "#7A8F7E").style("font-size", "11px");
+    legend.append("text").attr("x", i * 70 + 16).attr("y", 10)
+      .text(k).style("fill", "#E8EDE9").style("font-size", "11px");
   });
 }
 
@@ -375,7 +375,8 @@ function drawBatBubble(topBatsmen) {
     .append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
   const x  = d3.scaleLinear().domain([0, d3.max(data, d => d.Total_Runs) + 20]).range([0, w]);
-  const y  = d3.scaleLinear().domain([80, d3.max(data, d => d.Avg_Strike_Rate) + 10]).range([h, 0]);
+  const yMin = Math.max(0, d3.min(data, d => d.Avg_Strike_Rate) - 15);
+  const y  = d3.scaleLinear().domain([yMin, d3.max(data, d => d.Avg_Strike_Rate) + 10]).range([h, 0]);
   const r  = d3.scaleSqrt().domain([1, d3.max(data, d => d.Innings)]).range([4, 18]);
 
   svg.append("g").attr("class", "grid").call(d3.axisLeft(y).tickSize(-w).tickFormat(""));
@@ -713,57 +714,100 @@ function drawWinByOpponent(winOpponent) {
 }
 
 
-// ── 11. OPPONENT DONUT ───────────────────────────────────────
+// ── 11. AVG SCORE BY OPPONENT ────────────────────────────────
 function drawOpponentDonut(winOpponent) {
   const container = "#chart-opponent-donut";
   const W = getWidth(container), H = 380;
-  const R = Math.min(W, H) / 2 - 40;
+  const margin = { top: 40, right: 20, bottom: 40, left: 110 };
+  const w = W - margin.left - margin.right;
+  const h = H - margin.top - margin.bottom;
 
-  const data = winOpponent.filter(d => d.Total >= 1).sort((a,b) => b.Total - a.Total);
+  // Only opponents with at least 2 matches for meaningful averages
+  const data = winOpponent
+    .filter(d => d.Total >= 1)
+    .sort((a, b) => b.Total - a.Total);
 
   const svg = d3.select(container).append("svg")
     .attr("width", W).attr("height", H)
-    .append("g").attr("transform", `translate(${W/2},${H/2})`);
+    .append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const color = d3.scaleOrdinal(d3.schemeTableau10);
-  const pie   = d3.pie().value(d => d.Total).sort(null);
-  const arc   = d3.arc().innerRadius(R * 0.55).outerRadius(R);
-  const arcHover = d3.arc().innerRadius(R * 0.55).outerRadius(R + 8);
+  const allVals = data.flatMap(d => [d.Win || 0, d.Loss || 0]);
+  const x = d3.scaleLinear().domain([0, d3.max(data, d => d.Total) + 1]).range([0, w]);
+  const y = d3.scaleBand().domain(data.map(d => d.Opponent)).range([0, h]).padding(0.25);
+  const y1 = d3.scaleBand().domain(["Wins", "Losses"]).range([0, y.bandwidth()]).padding(0.1);
 
-  const arcs = svg.selectAll(".arc")
-    .data(pie(data))
-    .enter().append("g").attr("class", "arc");
+  // Grid
+  svg.append("g").attr("class", "grid")
+    .call(d3.axisBottom(x).tickSize(h).tickFormat(""))
+    .attr("transform", "translate(0,0)");
 
-  arcs.append("path")
-    .attr("d", arc)
-    .attr("fill", (d,i) => color(i))
-    .attr("stroke", "#0A0F0D").attr("stroke-width", 2)
-    .on("mouseover", function(event, d) {
-      d3.select(this).transition().duration(150).attr("d", arcHover);
-      showTooltip(`<strong>vs ${d.data.Opponent}</strong><br/>
-        Matches: ${d.data.Total}<br/>
-        Wins: ${d.data.Win || 0} · Losses: ${d.data.Loss || 0}<br/>
-        Win Rate: ${d.data.Win_Rate}%`, event);
+  const groups = svg.selectAll(".opp-group")
+    .data(data)
+    .enter().append("g")
+      .attr("transform", d => `translate(0, ${y(d.Opponent)})`);
+
+  // Wins bar
+  groups.append("rect")
+    .attr("y", y1("Wins"))
+    .attr("height", y1.bandwidth())
+    .attr("x", 0)
+    .attr("width", d => x(d.Win || 0))
+    .attr("rx", 3)
+    .attr("fill", "#00A550")
+    .on("mouseover", (event, d) => {
+      showTooltip(`<strong>vs ${d.Opponent}</strong><br/>
+        Wins: ${d.Win || 0}<br/>
+        Losses: ${d.Loss || 0}<br/>
+        Total: ${d.Total}<br/>
+        Win Rate: ${d.Win_Rate}%`, event);
     })
     .on("mousemove", moveTooltip)
-    .on("mouseout", function() {
-      d3.select(this).transition().duration(150).attr("d", arc);
-      hideTooltip();
-    });
+    .on("mouseout", hideTooltip);
 
-  svg.append("text").attr("text-anchor","middle").attr("dy","-0.2em")
-    .style("fill","#E8EDE9").style("font-size","28px").style("font-family","'Bebas Neue',sans-serif")
-    .text(d3.sum(data, d => d.Total));
-  svg.append("text").attr("text-anchor","middle").attr("dy","1.2em")
-    .style("fill","#7A8F7E").style("font-size","11px").style("letter-spacing","0.1em")
-    .text("MATCHES");
+  // Losses bar
+  groups.append("rect")
+    .attr("y", y1("Losses"))
+    .attr("height", y1.bandwidth())
+    .attr("x", 0)
+    .attr("width", d => x(d.Loss || 0))
+    .attr("rx", 3)
+    .attr("fill", "#FF4444")
+    .on("mouseover", (event, d) => {
+      showTooltip(`<strong>vs ${d.Opponent}</strong><br/>
+        Wins: ${d.Win || 0}<br/>
+        Losses: ${d.Loss || 0}<br/>
+        Total: ${d.Total}<br/>
+        Win Rate: ${d.Win_Rate}%`, event);
+    })
+    .on("mousemove", moveTooltip)
+    .on("mouseout", hideTooltip);
 
-  arcs.filter(d => (d.endAngle - d.startAngle) > 0.3)
-    .append("text")
-      .attr("transform", d => `translate(${arc.centroid(d)})`)
-      .attr("text-anchor","middle")
-      .style("fill","#fff").style("font-size","10px").style("font-weight","600")
-      .text(d => d.data.Opponent.slice(0, 8));
+  // Win value labels
+  groups.append("text")
+    .attr("x", d => x(d.Win || 0) + 4)
+    .attr("y", y1("Wins") + y1.bandwidth() / 2 + 4)
+    .style("fill", "#C8FF00").style("font-size", "10px")
+    .text(d => (d.Win || 0) > 0 ? `${d.Win}W` : "");
+
+  // Loss value labels
+  groups.append("text")
+    .attr("x", d => x(d.Loss || 0) + 4)
+    .attr("y", y1("Losses") + y1.bandwidth() / 2 + 4)
+    .style("fill", "#ffaaaa").style("font-size", "10px")
+    .text(d => (d.Loss || 0) > 0 ? `${d.Loss}L` : "");
+
+  svg.append("g").attr("class", "axis").call(d3.axisLeft(y));
+  svg.append("g").attr("class", "axis")
+    .attr("transform", `translate(0,${h})`).call(d3.axisBottom(x).ticks(5));
+
+  // Legend at top
+  const legendG = svg.append("g").attr("transform", "translate(0, -28)");
+  [["Wins", "#00A550"], ["Losses", "#FF4444"]].forEach(([label, col], i) => {
+    legendG.append("rect").attr("x", i * 90).attr("y", 0)
+      .attr("width", 12).attr("height", 12).attr("rx", 2).attr("fill", col);
+    legendG.append("text").attr("x", i * 90 + 16).attr("y", 10)
+      .style("fill", "#E8EDE9").style("font-size", "11px").text(label);
+  });
 }
 
 
@@ -781,71 +825,123 @@ function drawOverProgression(overData, matches) {
   function draw(matchId) {
     d3.select("#chart-over-progression").selectAll("*").remove();
 
-    const matchData = overData.filter(d => d.Match === matchId);
-    if (!matchData.length) return;
+    // Fix: compare as strings to avoid type mismatch
+    const matchData = overData.filter(d => String(d.Match) === String(matchId));
+    if (!matchData.length) {
+      d3.select("#chart-over-progression").append("p")
+        .style("color","#7A8F7E").style("padding","2rem")
+        .text("No over-by-over data available for this match.");
+      return;
+    }
 
     const container = "#chart-over-progression";
     const W = getWidth(container), H = 380;
-    const margin = { top: 30, right: 120, bottom: 50, left: 55 };
+    const margin = { top: 40, right: 140, bottom: 50, left: 55 };
     const w = W - margin.left - margin.right;
     const h = H - margin.top - margin.bottom;
+
+    // Get innings data — only Pakistan's innings (Batting_Team === 'Pakistan')
+    // and the opponent's innings separately
+    const matchInfo = matches.find(m => String(m["Match Number"]) === String(matchId));
+    const pakTeam   = "Pakistan";
+    const oppTeam   = matchInfo ? matchInfo.Opponent : "";
 
     const innings1 = matchData.filter(d => d.Innings === 1).sort((a,b) => a.Over - b.Over);
     const innings2 = matchData.filter(d => d.Innings === 2).sort((a,b) => a.Over - b.Over);
 
-    const maxOver = d3.max(matchData, d => d.Over);
-    const maxRuns = d3.max(matchData, d => d.Cumulative_Runs);
+    // Deduplicate overs (keep last entry per over)
+    function dedup(arr) {
+      const seen = new Map();
+      arr.forEach(d => seen.set(d.Over, d));
+      return Array.from(seen.values()).sort((a,b) => a.Over - b.Over);
+    }
+    const inn1 = dedup(innings1);
+    const inn2 = dedup(innings2);
+
+    if (!inn1.length && !inn2.length) {
+      d3.select("#chart-over-progression").append("p")
+        .style("color","#7A8F7E").style("padding","2rem")
+        .text("No over-by-over data available for this match.");
+      return;
+    }
+
+    const maxOver = d3.max(matchData, d => d.Over) || 20;
+    const maxRuns = d3.max(matchData, d => d.Cumulative_Runs) || 200;
 
     const svg = d3.select(container).append("svg")
       .attr("width", W).attr("height", H)
       .append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const x = d3.scaleLinear().domain([0, maxOver]).range([0, w]);
-    const y = d3.scaleLinear().domain([0, maxRuns + 10]).range([h, 0]);
+    const x = d3.scaleLinear().domain([1, maxOver]).range([0, w]);
+    const y = d3.scaleLinear().domain([0, maxRuns + 15]).range([h, 0]);
 
+    // Grid
     svg.append("g").attr("class","grid").call(d3.axisLeft(y).tickSize(-w).tickFormat(""));
 
-    const lineGen = d3.line().x(d => x(d.Over)).y(d => y(d.Cumulative_Runs)).curve(d3.curveMonotoneX);
+    const lineGen = d3.line()
+      .x(d => x(d.Over))
+      .y(d => y(d.Cumulative_Runs))
+      .curve(d3.curveMonotoneX);
 
-    const area1 = d3.area().x(d => x(d.Over)).y0(h).y1(d => y(d.Cumulative_Runs)).curve(d3.curveMonotoneX);
-    svg.append("path").datum(innings1).attr("d", area1).attr("fill","rgba(0,165,80,0.1)");
-    svg.append("path").datum(innings1).attr("d", lineGen).attr("class","line-pak");
-    svg.append("path").datum(innings2).attr("d", lineGen).attr("class","line-opp");
+    // Determine which innings is Pakistan
+    const inn1Team = inn1.length ? inn1[0].Batting_Team : matchInfo ? matchInfo["Team Bat First"] : "1st Innings";
+    const inn2Team = inn2.length ? inn2[0].Batting_Team : matchInfo ? matchInfo["Team Bat Second"] : "2nd Innings";
 
-    [innings1, innings2].forEach((inn, idx) => {
-      svg.selectAll(`.dot-inn${idx}`)
-        .data(inn)
+    const inn1Color = inn1Team === pakTeam ? "#00C962" : "#FF4444";
+    const inn2Color = inn2Team === pakTeam ? "#00C962" : "#FF4444";
+
+    // Draw lines
+    if (inn1.length > 1) {
+      svg.append("path").datum(inn1).attr("d", lineGen)
+        .attr("stroke", inn1Color).attr("stroke-width", 2.5)
+        .attr("fill", "none").attr("stroke-linejoin", "round");
+    }
+    if (inn2.length > 1) {
+      svg.append("path").datum(inn2).attr("d", lineGen)
+        .attr("stroke", inn2Color).attr("stroke-width", 2.5)
+        .attr("fill", "none").attr("stroke-linejoin", "round");
+    }
+
+    // Dots — only every 2nd over to reduce clutter
+    [[inn1, inn1Color, inn1Team], [inn2, inn2Color, inn2Team]].forEach(([inn, col, team]) => {
+      svg.selectAll(`.dot-${team.replace(/\s/g,'')}`)
+        .data(inn.filter((d,i) => i % 2 === 0 || i === inn.length - 1))
         .enter().append("circle")
           .attr("cx", d => x(d.Over))
           .attr("cy", d => y(d.Cumulative_Runs))
-          .attr("r",  4)
-          .attr("fill", idx === 0 ? "#00C962" : "#FF4444")
-          .attr("stroke","#0A0F0D").attr("stroke-width",1.5)
+          .attr("r", 4)
+          .attr("fill", col)
+          .attr("stroke", "#0A0F0D").attr("stroke-width", 1.5)
           .on("mouseover", (event, d) => {
-            showTooltip(`<strong>Over ${d.Over}</strong><br/>
-              Team: ${d.Batting_Team}<br/>
+            showTooltip(`<strong>${team} — Over ${d.Over}</strong><br/>
               Runs: ${d.Cumulative_Runs}<br/>
               Wickets: ${d.Wickets_Down}`, event);
           })
           .on("mousemove", moveTooltip)
-          .on("mouseout",  hideTooltip);
+          .on("mouseout", hideTooltip);
     });
 
-    svg.append("g").attr("class","axis").attr("transform",`translate(0,${h})`).call(d3.axisBottom(x).ticks(maxOver));
+    svg.append("g").attr("class","axis")
+      .attr("transform",`translate(0,${h})`)
+      .call(d3.axisBottom(x).ticks(Math.min(maxOver, 20)).tickFormat(d3.format("d")));
     svg.append("g").attr("class","axis").call(d3.axisLeft(y).ticks(6));
 
-    svg.append("text").attr("x",w/2).attr("y",h+40).attr("text-anchor","middle")
+    svg.append("text").attr("x",w/2).attr("y",h+42).attr("text-anchor","middle")
       .style("fill","#7A8F7E").style("font-size","11px").text("Over");
     svg.append("text").attr("transform","rotate(-90)").attr("x",-h/2).attr("y",-42)
-      .attr("text-anchor","middle").style("fill","#7A8F7E").style("font-size","11px").text("Cumulative Runs");
+      .attr("text-anchor","middle").style("fill","#7A8F7E").style("font-size","11px")
+      .text("Cumulative Runs");
 
-    const team1 = innings1.length ? innings1[0].Batting_Team : "1st Innings";
-    const team2 = innings2.length ? innings2[0].Batting_Team : "2nd Innings";
-    [["#00C962", team1], ["#FF4444", team2]].forEach(([col, label], i) => {
-      svg.append("line").attr("x1", w + 10).attr("y1", i * 20).attr("x2", w + 25).attr("y2", i * 20)
+    // Legend
+    [[inn1Color, inn1Team], [inn2Color, inn2Team]].forEach(([col, label], i) => {
+      svg.append("line")
+        .attr("x1", w + 15).attr("y1", i * 24)
+        .attr("x2", w + 35).attr("y2", i * 24)
         .style("stroke", col).style("stroke-width", 2.5);
-      svg.append("text").attr("x", w + 28).attr("y", i * 20 + 4)
-        .style("fill","#7A8F7E").style("font-size","10px").text(label);
+      svg.append("circle").attr("cx", w + 25).attr("cy", i * 24).attr("r", 4)
+        .attr("fill", col).attr("stroke","#0A0F0D").attr("stroke-width",1);
+      svg.append("text").attr("x", w + 40).attr("y", i * 24 + 4)
+        .style("fill","#E8EDE9").style("font-size","11px").text(label);
     });
   }
 
