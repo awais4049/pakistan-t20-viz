@@ -111,7 +111,7 @@ function drawResultsByYear(matches) {
     .append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
   const x = d3.scaleBand().domain(years).range([0, w]).padding(0.3);
-  const y = d3.scaleLinear().domain([0, d3.max(data, d => d.Win + d.Loss + d.Tie)]).nice().range([h, 0]);
+  const y = d3.scaleLinear().domain([0, 8]).range([h, 0]);
   const color = d3.scaleOrdinal().domain(keys).range(["#00A550", "#FF4444", "#FFD700"]);
 
   svg.append("g").attr("class", "grid")
@@ -218,7 +218,7 @@ function drawBattingOrder(matches) {
 function drawScoreScatter(matches) {
   const container = "#chart-score-scatter";
   const W = getWidth(container), H = 380;
-  const margin = { top: 20, right: 30, bottom: 60, left: 60 };
+  const margin = { top: 40, right: 30, bottom: 60, left: 60 };
   const w = W - margin.left - margin.right;
   const h = H - margin.top - margin.bottom;
 
@@ -279,9 +279,9 @@ function drawScoreScatter(matches) {
     .style("fill", "#7A8F7E").style("font-size", "12px").text("Pakistan Runs");
 
   [["Win", "#00A550"], ["Loss", "#FF4444"], ["Tie", "#FFD700"]].forEach(([label, col], i) => {
-    svg.append("circle").attr("cx", 10 + i * 70).attr("cy", -5).attr("r", 5).attr("fill", col);
-    svg.append("text").attr("x", 18 + i * 70).attr("y", -1)
-      .style("fill", "#7A8F7E").style("font-size", "11px").text(label);
+    svg.append("circle").attr("cx", 10 + i * 70).attr("cy", -18).attr("r", 5).attr("fill", col);
+    svg.append("text").attr("x", 18 + i * 70).attr("y", -14)
+      .style("fill", "#E8EDE9").style("font-size", "11px").text(label);
   });
 }
 
@@ -682,9 +682,11 @@ function drawWinByOpponent(winOpponent) {
   svg.selectAll(".pct")
     .data(data)
     .enter().append("text")
-      .attr("x", d => x(d.Win_Rate) + 5)
+      .attr("x", d => Math.min(x(d.Win_Rate) - 5, x(d.Win_Rate)))
       .attr("y", d => y(d.Opponent) + y.bandwidth()/2 + 4)
-      .style("fill","#C8FF00").style("font-size","10px")
+      .attr("text-anchor", d => d.Win_Rate > 15 ? "end" : "start")
+      .attr("dx", d => d.Win_Rate > 15 ? -4 : x(d.Win_Rate) + 4)
+      .style("fill","#C8FF00").style("font-size","10px").style("font-weight","600")
       .text(d => d.Win_Rate + "%");
 
   svg.selectAll(".total")
