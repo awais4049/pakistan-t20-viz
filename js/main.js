@@ -37,7 +37,8 @@ Promise.all([
   d3.json("data/win_by_opponent.json"),
   d3.json("data/pakistan_batting.json"),
   d3.json("data/pakistan_bowling.json"),
-]).then(([matches, topBatsmen, topBowlers, overData, winOpponent, batting, bowling]) => {
+  d3.json("data/venue_map.json"),
+]).then(([matches, topBatsmen, topBowlers, overData, winOpponent, batting, bowling, venueData]) => {
 
   // ── HERO STATS ─────────────────────────────────────────────
   const wins   = matches.filter(d => d.Pakistan_Result === "Win").length;
@@ -74,6 +75,7 @@ Promise.all([
   drawOpponentDonut(winOpponent);
   drawOverProgression(overData, matches);
   drawH2HDetail(matches);
+  drawWorldMap(venueData);
 
 }).catch(err => console.error("Data load error:", err));
 
@@ -1112,4 +1114,231 @@ function drawH2HDetail(matches) {
   }
 
   if (opponents.length) renderH2H(opponents[0]);
+}
+
+
+// ── 14. WORLD MAP ────────────────────────────────────────────
+function drawWorldMap(venueData) {
+  const container = "#chart-world-map";
+  const W = getWidth(container);
+  const H = Math.round(W * 0.52);
+
+  // Color scale: red → yellow → green based on win rate
+  const colorScale = d3.scaleLinear()
+    .domain([0, 50, 100])
+    .range(["#FF4444", "#FFD700", "#00A550"])
+    .clamp(true);
+
+  // Country pills
+  const tabsDiv = document.querySelector("#map-tabs");
+  const allCountries = ["All", ...venueData.map(d => d.country)];
+
+  let activeCountry = "All";
+
+  allCountries.forEach((c, i) => {
+    const btn = document.createElement("button");
+    btn.className = "team-tab" + (i === 0 ? " active" : "");
+    btn.textContent = c;
+    btn.dataset.country = c;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#map-tabs .team-tab")
+        .forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeCountry = c;
+      renderMap(c);
+    });
+    tabsDiv.appendChild(btn);
+  });
+
+  function renderMap(selectedCountry) {
+    d3.select(container).selectAll("*").remove();
+    document.querySelector("#map-stats").innerHTML = "";
+
+    const svg = d3.select(container).append("svg")
+      .attr("width", W).attr("height", H);
+
+    // Natural Earth projection
+    const projection = d3.geoNaturalEarth1()
+      .scale(W / 6.2)
+      .translate([W / 2, H / 2]);
+
+    const path = d3.geoPath().projection(projection);
+
+    // Build lookup for venue data
+    const lookup = {};
+    venueData.forEach(d => lookup[d.country] = d);
+
+    // Country name mapping from TopoJSON names to our names
+    const topoToOur = {
+      "Australia":              "Australia",
+      "South Africa":           "South Africa",
+      "Sri Lanka":              "Sri Lanka",
+      "United Arab Emirates":   "United Arab Emirates",
+      "Bangladesh":             "Bangladesh",
+      "India":                  "India",
+      "Saint Lucia":            "Saint Lucia",
+      "United Kingdom":         "United Kingdom",
+      "Barbados":               "Barbados",
+      "England":                "United Kingdom",
+    };
+
+    // Load world topojson
+    d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(world => {
+      const countries = topojson.feature(world, world.objects.countries);
+
+      // Country name lookup using a simple centroid-based approach
+      // We'll use country ISO numeric codes
+      const isoToName = {
+        "036": "Australia",
+        "710": "South Africa",
+        "144": "Sri Lanka",
+        "784": "United Arab Emirates",
+        "050": "Bangladesh",
+        "356": "India",
+        "662": "Saint Lucia",
+        "826": "United Kingdom",
+        "052": "Barbados",
+      };
+
+      // Draw base map
+      svg.selectAll(".country")
+        .data(countries.features)
+        .enter().append("path")
+          .attr("class", "country")
+          .attr("d", path)
+          .attr("fill", d => {
+            const name = isoToName[String(d.id).padStart(3,"0")];
+            if (!name) return "#1A2E1E";
+            const info = lookup[name];
+            if (!info) return "#1A2E1E";
+            if (selectedCountry !== "All" && name !== selectedCountry)
+              return "#111810";
+            return colorScale(info.win_rate);
+          })
+          .attr("stroke", "#0A0F0D")
+          .attr("stroke-width", 0.5)
+          .attr("opacity", d => {
+            const name = isoToName[String(d.id).padStart(3,"0")];
+            if (selectedCountry === "All") return 1;
+            return name === selectedCountry ? 1 : 0.25;
+          })
+          .on("mouseover", function(event, d) {
+            const name = isoToName[String(d.id).padStart(3,"0")];
+            if (!name || !lookup[name]) return;
+            if (selectedCountry !== "All" && name !== selectedCountry) return;
+            const info = lookup[name];
+            d3.select(this).attr("stroke", "#C8FF00").attr("stroke-width", 1.5);
+            showTooltip(`<strong>${info.country}</strong><br/>
+              Matches: ${info.matches}<br/>
+              Wins: ${info.wins} · Losses: ${info.losses}<br/>
+              Win Rate: <strong>${info.win_rate}%</strong><br/>
+              Venues: ${info.venues.join(", ")}`, event);
+          })
+          .on("mousemove", moveTooltip)
+          .on("mouseout", function(event, d) {
+            d3.select(this).attr("stroke", "#0A0F0D").attr("stroke-width", 0.5);
+            hideTooltip();
+          });
+
+      // Add glowing circles on playing countries
+      const displayData = selectedCountry === "All"
+        ? venueData
+        : venueData.filter(d => d.country === selectedCountry);
+
+      displayData.forEach(info => {
+        const [cx, cy] = projection([info.lon, info.lat]);
+        if (!cx || !cy) return;
+
+        // Outer glow ring
+        svg.append("circle")
+          .attr("cx", cx).attr("cy", cy)
+          .attr("r", 6 + info.matches * 1.5)
+          .attr("fill", colorScale(info.win_rate))
+          .attr("opacity", 0.2)
+          .attr("pointer-events", "none");
+
+        // Inner circle
+        svg.append("circle")
+          .attr("cx", cx).attr("cy", cy)
+          .attr("r", 5 + info.matches)
+          .attr("fill", colorScale(info.win_rate))
+          .attr("opacity", 0.85)
+          .attr("stroke", "#0A0F0D")
+          .attr("stroke-width", 1.5)
+          .attr("cursor", "pointer")
+          .on("mouseover", (event) => {
+            showTooltip(`<strong>${info.country}</strong><br/>
+              Matches: ${info.matches}<br/>
+              Wins: ${info.wins} · Losses: ${info.losses}<br/>
+              Win Rate: <strong>${info.win_rate}%</strong><br/>
+              Venues: ${info.venues.join(", ")}`, event);
+          })
+          .on("mousemove", moveTooltip)
+          .on("mouseout", hideTooltip);
+
+        // Label
+        svg.append("text")
+          .attr("x", cx)
+          .attr("y", cy - 10 - info.matches)
+          .attr("text-anchor", "middle")
+          .style("fill", "#E8EDE9")
+          .style("font-size", "10px")
+          .style("font-weight", "600")
+          .style("pointer-events", "none")
+          .style("text-shadow", "0 1px 3px #000")
+          .text(`${info.win_rate}%`);
+      });
+
+      // Color legend
+      const legendW = 160, legendH = 10;
+      const legendX = 20, legendY = H - 40;
+      const defs = svg.append("defs");
+      const grad = defs.append("linearGradient").attr("id", "map-legend-grad");
+      grad.append("stop").attr("offset", "0%").attr("stop-color", "#FF4444");
+      grad.append("stop").attr("offset", "50%").attr("stop-color", "#FFD700");
+      grad.append("stop").attr("offset", "100%").attr("stop-color", "#00A550");
+
+      svg.append("rect")
+        .attr("x", legendX).attr("y", legendY)
+        .attr("width", legendW).attr("height", legendH)
+        .attr("rx", 4)
+        .attr("fill", "url(#map-legend-grad)");
+
+      svg.append("text").attr("x", legendX).attr("y", legendY - 5)
+        .style("fill","#7A8F7E").style("font-size","9px").text("0% Win Rate");
+      svg.append("text").attr("x", legendX + legendW).attr("y", legendY - 5)
+        .attr("text-anchor","end")
+        .style("fill","#7A8F7E").style("font-size","9px").text("100%");
+
+      // Show stats strip if a specific country is selected
+      if (selectedCountry !== "All") {
+        const info = lookup[selectedCountry];
+        if (info) {
+          const statsDiv = document.querySelector("#map-stats");
+          [
+            { val: info.matches,           label: "Matches Played" },
+            { val: info.wins,              label: "Wins" },
+            { val: info.losses,            label: "Losses" },
+            { val: info.win_rate + "%",    label: "Win Rate" },
+            { val: info.venues.join(", "), label: "Venues" },
+            { val: info.opponents.join(", "), label: "Opponents Faced" },
+          ].forEach(s => {
+            statsDiv.innerHTML += `
+              <div class="h2h-stat">
+                <span class="h2h-stat-val" style="font-size:1.4rem">${s.val}</span>
+                <span class="h2h-stat-label">${s.label}</span>
+              </div>`;
+          });
+        }
+      }
+
+    }).catch(err => {
+      d3.select(container).append("p")
+        .style("color","#7A8F7E").style("padding","2rem")
+        .text("Map data could not be loaded.");
+      console.error("Map load error:", err);
+    });
+  }
+
+  renderMap("All");
 }
