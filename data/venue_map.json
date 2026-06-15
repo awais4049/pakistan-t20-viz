@@ -1,0 +1,189 @@
+[
+  {
+    "country": "Australia",
+    "lat": -25.0,
+    "lon": 133.0,
+    "matches": 7,
+    "wins": 4,
+    "losses": 3,
+    "ties": 0,
+    "win_rate": 57.1,
+    "venues": [
+      "Melbourne",
+      "Perth",
+      "Sydney",
+      "Adelaide"
+    ],
+    "opponents": [
+      "India",
+      "Zimbabwe",
+      "Netherlands",
+      "South Africa",
+      "Bangladesh",
+      "New Zealand",
+      "England"
+    ]
+  },
+  {
+    "country": "South Africa",
+    "lat": -28.5,
+    "lon": 25.0,
+    "matches": 7,
+    "wins": 5,
+    "losses": 1,
+    "ties": 1,
+    "win_rate": 71.4,
+    "venues": [
+      "Durban",
+      "Johannesburg",
+      "Cape Town"
+    ],
+    "opponents": [
+      "Scotland",
+      "India",
+      "Sri Lanka",
+      "Australia",
+      "Bangladesh",
+      "New Zealand"
+    ]
+  },
+  {
+    "country": "Sri Lanka",
+    "lat": 7.9,
+    "lon": 80.7,
+    "matches": 6,
+    "wins": 4,
+    "losses": 2,
+    "ties": 0,
+    "win_rate": 66.7,
+    "venues": [
+      "Pallekele",
+      "Colombo (RPS)"
+    ],
+    "opponents": [
+      "New Zealand",
+      "Bangladesh",
+      "South Africa",
+      "India",
+      "Australia",
+      "Sri Lanka"
+    ]
+  },
+  {
+    "country": "United Arab Emirates",
+    "lat": 24.2,
+    "lon": 55.3,
+    "matches": 6,
+    "wins": 5,
+    "losses": 1,
+    "ties": 0,
+    "win_rate": 83.3,
+    "venues": [
+      "Dubai (DSC)",
+      "Sharjah",
+      "Abu Dhabi"
+    ],
+    "opponents": [
+      "India",
+      "New Zealand",
+      "Afghanistan",
+      "Namibia",
+      "Scotland",
+      "Australia"
+    ]
+  },
+  {
+    "country": "Bangladesh",
+    "lat": 23.7,
+    "lon": 90.4,
+    "matches": 4,
+    "wins": 2,
+    "losses": 2,
+    "ties": 0,
+    "win_rate": 50.0,
+    "venues": [
+      "Mirpur"
+    ],
+    "opponents": [
+      "India",
+      "Australia",
+      "Bangladesh",
+      "West Indies"
+    ]
+  },
+  {
+    "country": "India",
+    "lat": 22.5,
+    "lon": 80.0,
+    "matches": 4,
+    "wins": 1,
+    "losses": 3,
+    "ties": 0,
+    "win_rate": 25.0,
+    "venues": [
+      "Eden Gardens",
+      "Mohali"
+    ],
+    "opponents": [
+      "Bangladesh",
+      "India",
+      "New Zealand",
+      "Australia"
+    ]
+  },
+  {
+    "country": "Saint Lucia",
+    "lat": 13.9,
+    "lon": -60.9,
+    "matches": 4,
+    "wins": 2,
+    "losses": 2,
+    "ties": 0,
+    "win_rate": 50.0,
+    "venues": [
+      "Gros Islet"
+    ],
+    "opponents": [
+      "Bangladesh",
+      "Australia",
+      "South Africa"
+    ]
+  },
+  {
+    "country": "United Kingdom",
+    "lat": 52.0,
+    "lon": -1.5,
+    "matches": 4,
+    "wins": 3,
+    "losses": 1,
+    "ties": 0,
+    "win_rate": 75.0,
+    "venues": [
+      "The Oval",
+      "Nottingham"
+    ],
+    "opponents": [
+      "England",
+      "New Zealand",
+      "Ireland",
+      "South Africa"
+    ]
+  },
+  {
+    "country": "Barbados",
+    "lat": 13.1,
+    "lon": -59.6,
+    "matches": 2,
+    "wins": 0,
+    "losses": 2,
+    "ties": 0,
+    "win_rate": 0.0,
+    "venues": [
+      "Bridgetown"
+    ],
+    "opponents": [
+      "England",
+      "New Zealand"
+    ]
+  }
+]
