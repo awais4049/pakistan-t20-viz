@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 </head>
 <body>
 
@@ -23,6 +24,7 @@
       <li><a href="#bowling">Bowling</a></li>
       <li><a href="#opponents">Opponents</a></li>
       <li><a href="#progression">Match Flow</a></li>
+      <li><a href="#worldmap">Map</a></li>
     </ul>
   </nav>
 
@@ -181,6 +183,26 @@
           <select id="match-select"></select>
         </div>
         <div id="chart-over-progression" class="chart-area tall"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 6: WORLD MAP ────────────────────────────── -->
+  <section id="worldmap" class="section alt-bg">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <div>
+        <h2 class="section-title">Playing Venues</h2>
+        <p class="section-desc">Countries where Pakistan has played T20 World Cup matches — color shows win rate. Click a country to zoom in.</p>
+      </div>
+    </div>
+    <div class="chart-grid one-col">
+      <div class="chart-card wide">
+        <h3 class="chart-title">World Map — Win Rate by Country</h3>
+        <p class="chart-desc">Green = high win rate · Yellow = average · Red = low win rate. Bubble size = matches played.</p>
+        <div id="map-tabs" class="team-tabs"></div>
+        <div id="chart-world-map" class="chart-area" style="min-height:420px"></div>
+        <div id="map-stats" class="h2h-stats"></div>
       </div>
     </div>
   </section>
